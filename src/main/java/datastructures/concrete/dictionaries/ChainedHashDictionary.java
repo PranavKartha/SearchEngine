@@ -242,7 +242,7 @@ public class ChainedHashDictionary<K, V> implements IDictionary<K, V> {
         
         private int findFirstHash(int start) {
             for (int i = start; i < this.chains.length; i++) {
-                if (this.chains[i] != null) {
+                if (this.chains[i] != null && this.chains[i].iterator().hasNext()) {
                     return i;
                 }
             }
