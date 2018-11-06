@@ -219,16 +219,24 @@ public class ChainedHashDictionary<K, V> implements IDictionary<K, V> {
                 throw new NoSuchElementException();
             }
             
-            // assuming we're on a valid dicitonary
-
+            // assuming we're on a valid dictionary
+            
+            // if we've completely traversed the current dictionary
             if (!this.currentIterator.hasNext()) {
                 this.index = this.findFirstHash(this.index + 1);
                 // what about when index == -1
                 if (this.index == -1) {
                     return null;
                 }
+                // we move to traversing the next valid one, assuming it exists.
+                // This can be assumed because of the above check, the method
+                // would return null if no such iterator existed
                 this.currentIterator = this.chains[this.index].iterator();
             }
+            // At this point, either the initial iterator (which has a next) would increment,
+            // or the currentIterator now refers to a newly-initialized iterator that hasn't
+            // done any traversal. Both cases guarantee a value exists, as the iterators do not
+            // allow the traversal of null objects.
             return this.currentIterator.next();
         }
         

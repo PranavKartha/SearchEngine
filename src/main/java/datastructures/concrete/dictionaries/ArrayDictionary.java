@@ -210,7 +210,7 @@ public class ArrayDictionary<K, V> implements IDictionary<K, V> {
             return null;
         }
         
-        // finds the first KVPair that exists after the current index
+        // finds the first KVPair that exists starting from the inputed index
         private KVPair<K, V> findFirstKVPair() {
             for (int i = this.index; i < this.pairs.length; i++) {
                 if (this.pairs[i] != null) {

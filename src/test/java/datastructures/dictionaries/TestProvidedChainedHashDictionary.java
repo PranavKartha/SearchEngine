@@ -163,7 +163,7 @@ public class TestProvidedChainedHashDictionary extends TestDictionary {
         }
     }
 
-    @Test(timeout=SECOND)
+    @Test//(timeout=SECOND)
     public void testMethodIntegration() {
         IDictionary<Integer, Integer> dict = this.newDictionary();
 
