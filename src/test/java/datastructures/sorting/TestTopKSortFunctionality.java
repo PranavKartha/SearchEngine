@@ -4,6 +4,9 @@ import misc.BaseTest;
 import datastructures.concrete.DoubleLinkedList;
 import datastructures.interfaces.IList;
 import misc.Searcher;
+
+import static org.junit.Assert.fail;
+
 import org.junit.Test;
 
 /**
@@ -21,6 +24,18 @@ public class TestTopKSortFunctionality extends BaseTest {
         assertEquals(5, top.size());
         for (int i = 0; i < top.size(); i++) {
             assertEquals(15 + i, top.get(i));
+        }
+    }
+    
+    @Test(timeout=SECOND)
+    public void testNegativeKInput() {
+        IList<Integer> list = new DoubleLinkedList<>();
+        list.add(1);
+        try {
+            IList<Integer> topNegativeThings = Searcher.topKSort(-1, list);
+            fail("Expected IllegalArgumentException");
+        } catch (IllegalArgumentException e) {
+            // guud jahb broi
         }
     }
 }
