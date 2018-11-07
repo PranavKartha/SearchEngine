@@ -1,6 +1,7 @@
 package datastructures.concrete;
 
 import datastructures.interfaces.IPriorityQueue;
+import misc.exceptions.EmptyContainerException;
 import misc.exceptions.NotYetImplementedException;
 
 /**
@@ -18,12 +19,10 @@ public class ArrayHeap<T extends Comparable<T>> implements IPriorityQueue<T> {
     // Feel free to add more fields and constants.
     private static final int STARTING_SIZE = 5;
     private int size;
-    private int bottom;
     
     public ArrayHeap() {
         this.heap = makeArrayOfT(STARTING_SIZE);
         this.size = 0;
-        bottom = -1;
     }
 
     /**
@@ -44,6 +43,9 @@ public class ArrayHeap<T extends Comparable<T>> implements IPriorityQueue<T> {
 
     @Override
     public T removeMin() {
+        if (this.isEmpty()) {
+            throw new EmptyContainerException();
+        }
         // percolating happens here
         
         // store top value as it's own thing.
@@ -54,64 +56,98 @@ public class ArrayHeap<T extends Comparable<T>> implements IPriorityQueue<T> {
 
     @Override
     public T peekMin() {
-       return heap[0];
+        if (this.isEmpty()) {
+            throw new EmptyContainerException();
+        }
+        
+        T result = this.heap[0];
+        this.heap[0] = this.heap[this.size - 1];
+        this.heap[this.size - 1] = null;
+        
+        // percolate method from top
+        
+        this.size--;
+        
+        return result;
     }
 
     @Override
     public void insert(T item) {
-        // reorganizing happens here
-        this.size++;
-        if (this.size > this.heap.length) {
-            //resize method
+        if (item == null) {
+            throw new IllegalArgumentException();
         }
         
-        if(item < heap[1]) {
+        // reorganizing happens here
+        // increment size
+        this.size++;
+        if (this.size > this.heap.length) {
+            // resize
+            this.reSize();
+        }
+        
+        if(item.compareTo(heap[0]) < 0) {
             //rearrange
         }else {
             insertHelper(item, 0);
         }
         
-        //remake in
-//        for(int i = 0; i < size; i++) {
-//            if(item > heap[i]) {
-//                if(heap[(4 * i) - 2] == null) {
-//                    heap[(4 * i) - 2] = item;
-//                }else if((heap[(4 * i) - 1] == null) {
-//                    heap[(4 * i) - 1] = item;
-//                }else if(heap[(4 * i)] == null) {
-//                    heap[(4 * i)] = item;   
-//                }else if(heap[(4 * i) + 1] == null) {
-//                    heap[(4 * i) + 1] = item;
-//                }else{   
-//                    //go to next level. recursion?
-//                }
-//            }
-//        }
-        
         //traverse to correct place, relocate shit as needed
         // put that bitch/bicboi down
+        
         throw new NotYetImplementedException();
     }
     
     private void insertHelper(T item, int i) {
-        if(item > heap[i]) {
-            if(heap[(4 * i) - 2] == null) {
-                heap[(4 * i) - 2] = item;
-            }else if((heap[(4 * i) - 1] == null) {
-                heap[(4 * i) - 1] = item;
-            }else if(heap[(4 * i)] == null) {
-                heap[(4 * i)] = item;   
-            }else if(heap[(4 * i) + 1] == null) {
-                heap[(4 * i) + 1] = item;
+        if ((ArrayHeap.NUM_CHILDREN * i) + 4 > this.heap.length) {
+            this.reSize();
+        }
+        
+        if(item.compareTo(this.heap[i]) > 0) {
+            if(this.heap[(ArrayHeap.NUM_CHILDREN * i) + 1] == null) {
+                this.heap[(ArrayHeap.NUM_CHILDREN * i) + 1] = item;
+            }else if(this.heap[(ArrayHeap.NUM_CHILDREN * i) + 2] == null) {
+                this.heap[(ArrayHeap.NUM_CHILDREN * i) - 1] = item;
+            }else if(this.heap[(ArrayHeap.NUM_CHILDREN * i) + 3] == null) {
+                this.heap[(ArrayHeap.NUM_CHILDREN * i) + 3] = item;   
+            }else if(this.heap[(ArrayHeap.NUM_CHILDREN * i) + 4] == null) {
+                this.heap[(ArrayHeap.NUM_CHILDREN * i) + 4] = item;
             }else {
-                if (i + 1 < size){              
-                    insertHelper(item, i + 1);
-                }    
+                this.insertHelper(item, i + 1);
             }
         }else {
             //rearrange
+            int newIndex = this.percolate(item, i);
+            // then do insertHelper(item, newIndex);??
         }
+    }
+    
+    private int percolate(T item, int i) {
+        // NOTE: always percolate down, and replace with SMALLEST child
         
+        // what to do...
+        
+        // first check
+        if (this.heap[i].compareTo(this.heap[ArrayHeap.NUM_CHILDREN * i + 1]) > 0) {
+            
+        } else if (this.heap[i].compareTo(this.heap[ArrayHeap.NUM_CHILDREN * i + 2]) > 0) {
+            
+        } else if (this.heap[i].compareTo(this.heap[ArrayHeap.NUM_CHILDREN * i + 3]) > 0) {
+            
+        } else if (this.heap[i].compareTo(this.heap[ArrayHeap.NUM_CHILDREN * i + 4]) > 0) {
+            
+        } else {
+            return i;
+        }
+        // this is a placeholder until rest of code is written
+        return 0;
+    }
+    
+    private void reSize() {
+        T[] newHeap = this.makeArrayOfT(this.heap.length * (ArrayHeap.NUM_CHILDREN + 1));
+        for (int i = 0; i < this.heap.length; i++) {
+            newHeap[i] = this.heap[i];
+        }
+        this.heap = newHeap;
     }
 
     @Override
