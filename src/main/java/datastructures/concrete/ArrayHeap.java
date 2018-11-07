@@ -54,8 +54,7 @@ public class ArrayHeap<T extends Comparable<T>> implements IPriorityQueue<T> {
 
     @Override
     public T peekMin() {
-        // return the T at the top bicBoi
-        throw new NotYetImplementedException();
+       return heap[0];
     }
 
     @Override
@@ -66,9 +65,53 @@ public class ArrayHeap<T extends Comparable<T>> implements IPriorityQueue<T> {
             //resize method
         }
         
+        if(item < heap[1]) {
+            //rearrange
+        }else {
+            insertHelper(item, 0);
+        }
+        
+        //remake in
+//        for(int i = 0; i < size; i++) {
+//            if(item > heap[i]) {
+//                if(heap[(4 * i) - 2] == null) {
+//                    heap[(4 * i) - 2] = item;
+//                }else if((heap[(4 * i) - 1] == null) {
+//                    heap[(4 * i) - 1] = item;
+//                }else if(heap[(4 * i)] == null) {
+//                    heap[(4 * i)] = item;   
+//                }else if(heap[(4 * i) + 1] == null) {
+//                    heap[(4 * i) + 1] = item;
+//                }else{   
+//                    //go to next level. recursion?
+//                }
+//            }
+//        }
+        
         //traverse to correct place, relocate shit as needed
         // put that bitch/bicboi down
         throw new NotYetImplementedException();
+    }
+    
+    private void insertHelper(T item, int i) {
+        if(item > heap[i]) {
+            if(heap[(4 * i) - 2] == null) {
+                heap[(4 * i) - 2] = item;
+            }else if((heap[(4 * i) - 1] == null) {
+                heap[(4 * i) - 1] = item;
+            }else if(heap[(4 * i)] == null) {
+                heap[(4 * i)] = item;   
+            }else if(heap[(4 * i) + 1] == null) {
+                heap[(4 * i) + 1] = item;
+            }else {
+                if (i + 1 < size){              
+                    insertHelper(item, i + 1);
+                }    
+            }
+        }else {
+            //rearrange
+        }
+        
     }
 
     @Override
