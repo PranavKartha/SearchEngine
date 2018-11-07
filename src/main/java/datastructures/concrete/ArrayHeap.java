@@ -16,9 +16,14 @@ public class ArrayHeap<T extends Comparable<T>> implements IPriorityQueue<T> {
     private T[] heap;
 
     // Feel free to add more fields and constants.
-
+    private static final int STARTING_SIZE = 5;
+    private int size;
+    private int bottom;
+    
     public ArrayHeap() {
-        throw new NotYetImplementedException();
+        this.heap = makeArrayOfT(STARTING_SIZE);
+        this.size = 0;
+        bottom = -1;
     }
 
     /**
@@ -39,21 +44,35 @@ public class ArrayHeap<T extends Comparable<T>> implements IPriorityQueue<T> {
 
     @Override
     public T removeMin() {
+        // percolating happens here
+        
+        // store top value as it's own thing.
+        // empty bottom slot, put bottom at top
+        // PERCOLATE THAT BITCH
         throw new NotYetImplementedException();
     }
 
     @Override
     public T peekMin() {
+        // return the T at the top bicBoi
         throw new NotYetImplementedException();
     }
 
     @Override
     public void insert(T item) {
+        // reorganizing happens here
+        this.size++;
+        if (this.size > this.heap.length) {
+            //resize method
+        }
+        
+        //traverse to correct place, relocate shit as needed
+        // put that bitch/bicboi down
         throw new NotYetImplementedException();
     }
 
     @Override
     public int size() {
-        throw new NotYetImplementedException();
+        return this.size;
     }
 }

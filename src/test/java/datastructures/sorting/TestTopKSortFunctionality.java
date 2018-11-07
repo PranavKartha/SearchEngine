@@ -38,4 +38,15 @@ public class TestTopKSortFunctionality extends BaseTest {
             // guud jahb broi 
         }
     }
+    
+    @Test(timeout=SECOND)
+    public void testKGreaterThanN() {
+        IList<Integer> list = new DoubleLinkedList<>();
+        IList<Integer> topK;
+        for (int i = 0; i < 5; i++) {
+            list.add(i);
+            topK = Searcher.topKSort(10, list);
+            assertEquals(i+1, topK.size());
+        }
+    }
 }
