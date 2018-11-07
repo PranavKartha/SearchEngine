@@ -9,7 +9,7 @@ import datastructures.interfaces.IPriorityQueue;
 import static org.junit.Assert.assertTrue;
 
 /**
- * See spec for details on what kinds of tests this class should include.
+ * See spec for details on what kinds of tests this class should include. 
  */
 public class TestSortingStress extends BaseTest {
     protected <T extends Comparable<T>> IPriorityQueue<T> makeInstance() {
