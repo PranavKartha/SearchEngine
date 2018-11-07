@@ -36,6 +36,8 @@ public class TestArrayHeapFunctionality extends BaseTest {
         for (int i =-9; i <= 0; i++) {
             assertEquals(i, heap.removeMin());
         }
+        
+        assertTrue(heap.isEmpty());
     }
     
     @Test(timeout=SECOND)
@@ -87,5 +89,38 @@ public class TestArrayHeapFunctionality extends BaseTest {
             // the drugs in their blood, they were higher than kites
             // yet they lay like in storage, lost without light
         }
+    }
+    
+    public void testInsertAndPeekMin() {
+        IPriorityQueue<Integer> heap = this.makeInstance();
+        for(int i = 20; i < 0; i--){
+            heap.insert(i);
+            assertEquals(i, heap.peekMin());           
+        }      
+    }
+    
+    @Test(timeout=SECOND)
+    public void testRemoveMin() {
+        IPriorityQueue<Integer> heap = this.makeInstance();
+        for(int i = 0; i < 20; i++) {
+            heap.insert(i);
+        }
+        for(int i = 0; i < 20; i++) {
+            assertEquals(i, heap.removeMin());
+        }
+    }
+    
+    @Test(timeout=SECOND)
+    public void testIsEmpty() {
+        IPriorityQueue<Integer> heap = this.makeInstance();
+        assertTrue(heap.isEmpty());
+        for(int i = 0; i < 20; i++) {
+            heap.insert(i);
+        }
+        for(int i = 0; i < 20; i++) {
+            heap.removeMin();
+        }
+        assertTrue(heap.isEmpty());
+    
     }
 }
