@@ -1,8 +1,10 @@
 package datastructures.sorting;
 
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import misc.BaseTest;
+import misc.exceptions.EmptyContainerException;
 import datastructures.concrete.ArrayHeap;
 import datastructures.interfaces.IPriorityQueue;
 import org.junit.Test;
@@ -21,5 +23,69 @@ public class TestArrayHeapFunctionality extends BaseTest {
         heap.insert(3);
         assertEquals(1, heap.size());
         assertTrue(!heap.isEmpty());
+    }
+    
+    @Test(timeout=SECOND)
+    public void testNegativeInputBasic() {
+        IPriorityQueue<Integer> heap = this.makeInstance();
+        for (int i = 0; i > -10; i--) {
+            heap.insert(i);
+            assertEquals(i, heap.peekMin());
+        }
+        
+        for (int i =-9; i <= 0; i++) {
+            assertEquals(i, heap.removeMin());
+        }
+    }
+    
+    @Test(timeout=SECOND)
+    public void testNullInput() {
+        IPriorityQueue<String> heap = this.makeInstance();
+        try {
+            heap.insert(null);
+            fail("Expected IllegalArgumentException");
+        } catch (IllegalArgumentException e) {
+            // Don't do anything, as a wise boi once said, "Esketwo"
+        }
+    }
+    
+    @Test(timeout=SECOND)
+    public void insertOutOfOrder() {
+        IPriorityQueue<Integer> heap = this.makeInstance();
+        heap.insert(5);
+        assertEquals(5, heap.peekMin());
+        heap.insert(72);
+        heap.insert(27);
+        heap.insert(3);
+        heap.insert(4);
+        assertEquals(3, heap.peekMin());
+        assertEquals(5, heap.size());
+    }
+    
+    @Test(timeout=SECOND)
+    public void testEmptyRemoveMin() {
+        IPriorityQueue<String> heap = this.makeInstance();
+        
+        try {
+            heap.removeMin();
+            fail("Expected EmptyContainerException");
+        } catch (EmptyContainerException e) {
+            // this is some good, tasty shit
+        }
+    }
+    
+    @Test(timeout=SECOND)
+    public void testEmptyPeekMin() {
+        IPriorityQueue<Double> heap = this.makeInstance();
+        
+        try {
+            heap.peekMin();
+            fail("Expected EmptyContainerException");
+        } catch (EmptyContainerException e) {
+            // twas a night like this one when the good shit was found
+            // nothing had stirred, for all were passed out on the ground
+            // the drugs in their blood, they were higher than kites
+            // yet they lay like in storage, lost without light
+        }
     }
 }
