@@ -101,15 +101,15 @@ public class ArrayHeap<T extends Comparable<T>> implements IPriorityQueue<T> {
         if ((ArrayHeap.NUM_CHILDREN * i) + 4 > this.heap.length) {
             this.reSize();
         }
-        if(this.heap[(ArrayHeap.NUM_CHILDREN * i) + 1] == null) {
+        if (this.heap[(ArrayHeap.NUM_CHILDREN * i) + 1] == null) {
             childCheck(item, i, 1);
-        }else if(this.heap[(ArrayHeap.NUM_CHILDREN * i) + 2] == null) {
+        } else if (this.heap[(ArrayHeap.NUM_CHILDREN * i) + 2] == null) {
             childCheck(item, i, 2);
-        }else if(this.heap[(ArrayHeap.NUM_CHILDREN * i) + 3] == null) {
+        } else if (this.heap[(ArrayHeap.NUM_CHILDREN * i) + 3] == null) {
             childCheck(item, i, 3);
-        }else if(this.heap[(ArrayHeap.NUM_CHILDREN * i) + 4] == null) {
+        } else if (this.heap[(ArrayHeap.NUM_CHILDREN * i) + 4] == null) {
             childCheck(item, i, 4);
-        }else {
+        } else {
             this.insertHelper(item, i + 1);
         }
 //        if(item.compareTo(this.heap[i]) > 0) {
@@ -132,45 +132,44 @@ public class ArrayHeap<T extends Comparable<T>> implements IPriorityQueue<T> {
     }
     
     public void childCheck(T item, int i, int childNum) {
-        if(item.compareTo(this.heap[i] > 0)) {
-            this.heap[(ArrayHeap.NUM_CHILDREN * i) + chldNum] = item;
-        }else {
-            percolate(item, (ArrayHeap.NUM_CHILDREN * i) + childNum);
-         //percolate
-            //what is the relationship between parent and child in the array?
+        if (item.compareTo(this.heap[i]) > 0) {
+            this.heap[(ArrayHeap.NUM_CHILDREN * i) + childNum] = item;
+        } else {
+            relocate(item, (ArrayHeap.NUM_CHILDREN * i) + childNum);
+         //relocate
         }
     }
     
     
-    private void percolate(T item, int i) {
-        if(item.compareTo(this.heap[i/ArrayHeap.NUM_CHILDREN] > 0)) {
-            T parentData = heap[i/ArrayHeap.NUM_CHILDREN];
-            heap[i/ArrayHeap.NUM_CHILDREN] = item;
+    private void relocate(T item, int i) {
+        T parentData = this.heap[(i - 1) / ArrayHeap.NUM_CHILDREN];
+        if (item.compareTo(parentData) > 0) {
+            heap[(i - 1) / ArrayHeap.NUM_CHILDREN] = item;
             heap[i] = parentData;
-            percolate(item, i/ArrayHeap.NUM_CHILDREN);
+            relocate(item, (i - 1) / ArrayHeap.NUM_CHILDREN);
         }
     }
     
-//    private int percolate(T item, int i) {
-//        // NOTE: always percolate down, and replace with SMALLEST child
-//        
-//        // what to do...
-//        
-//        // first check
-//        if (this.heap[i].compareTo(this.heap[ArrayHeap.NUM_CHILDREN * i + 1]) > 0) {
-//            
-//        } else if (this.heap[i].compareTo(this.heap[ArrayHeap.NUM_CHILDREN * i + 2]) > 0) {
-//            
-//        } else if (this.heap[i].compareTo(this.heap[ArrayHeap.NUM_CHILDREN * i + 3]) > 0) {
-//            
-//        } else if (this.heap[i].compareTo(this.heap[ArrayHeap.NUM_CHILDREN * i + 4]) > 0) {
-//            
-//        } else {
-//            return i;
-//        }
-//        // this is a placeholder until rest of code is written
-//        return 0;
-//    }
+    private int percolate(T item, int i) {
+        // NOTE: always percolate down, and replace with SMALLEST child
+        
+        // what to do...
+        
+        // first check
+        if (this.heap[i].compareTo(this.heap[ArrayHeap.NUM_CHILDREN * i + 1]) > 0) {
+            
+        } else if (this.heap[i].compareTo(this.heap[ArrayHeap.NUM_CHILDREN * i + 2]) > 0) {
+            
+        } else if (this.heap[i].compareTo(this.heap[ArrayHeap.NUM_CHILDREN * i + 3]) > 0) {
+            
+        } else if (this.heap[i].compareTo(this.heap[ArrayHeap.NUM_CHILDREN * i + 4]) > 0) {
+            
+        } else {
+            return i;
+        }
+        // this is a placeholder until rest of code is written
+        return 0;
+    }
     
     private void reSize() {
         T[] newHeap = this.makeArrayOfT(this.heap.length * (ArrayHeap.NUM_CHILDREN + 1));
