@@ -175,7 +175,7 @@ public class ArrayHeap<T extends Comparable<T>> implements IPriorityQueue<T> {
             percolate(item, smallIndex);
             
         } else {
-            // less pedophilic base cases
+            // less pedophilic base cases... you heard me
             if (!this.hasNoKids(i)) {
                 int smallIndex = ArrayHeap.NUM_CHILDREN * i + 1;
                 T small = this.heap[smallIndex];
