@@ -46,12 +46,16 @@ public class ArrayHeap<T extends Comparable<T>> implements IPriorityQueue<T> {
         if (this.isEmpty()) {
             throw new EmptyContainerException();
         }
-        // percolating happens here
+        T result = this.heap[0];
+        this.heap[0] = this.heap[this.size - 1];
+        this.heap[this.size - 1] = null;
         
-        // store top value as it's own thing.
-        // empty bottom slot, put bottom at top
-        // PERCOLATE THAT BITCH
-        throw new NotYetImplementedException();
+        // percolate method from top
+        // percolate(item, 0);
+        
+        this.size--;
+        
+        return result;
     }
 
     @Override
@@ -60,15 +64,7 @@ public class ArrayHeap<T extends Comparable<T>> implements IPriorityQueue<T> {
             throw new EmptyContainerException();
         }
         
-        T result = this.heap[0];
-        this.heap[0] = this.heap[this.size - 1];
-        this.heap[this.size - 1] = null;
-        
-        // percolate method from top
-        
-        this.size--;
-        
-        return result;
+        return this.heap[0];
     }
 
     @Override
@@ -80,21 +76,17 @@ public class ArrayHeap<T extends Comparable<T>> implements IPriorityQueue<T> {
         // reorganizing happens here
         // increment size
         this.size++;
+        
         if (this.size > this.heap.length) {
             // resize
             this.reSize();
         }
         
-        if(item.compareTo(heap[0]) < 0) {
-            //rearrange
-        }else {
-            insertHelper(item, 0);
-        }
+        // insertion
+        insertHelper(item, 0);
         
         //traverse to correct place, relocate shit as needed
         // put that bitch/bicboi down
-        
-        throw new NotYetImplementedException();
     }
     
     private void insertHelper(T item, int i) {
@@ -150,25 +142,72 @@ public class ArrayHeap<T extends Comparable<T>> implements IPriorityQueue<T> {
         }
     }
     
-    private int percolate(T item, int i) {
+    private void percolate(T item, int i) {
         // NOTE: always percolate down, and replace with SMALLEST child
         
-        // what to do...
-        
         // first check
-        if (this.heap[i].compareTo(this.heap[ArrayHeap.NUM_CHILDREN * i + 1]) > 0) {
+        // base: not all kids are there
+        // aka the kids arent all right
+        
+        if (this.hasMaxKids(i)) {
+            // #hail4Kids
             
-        } else if (this.heap[i].compareTo(this.heap[ArrayHeap.NUM_CHILDREN * i + 2]) > 0) {
+            // pick smallest child
+            // penetrate them... wait, no, um.. i mean-- percolate them
+            T smallest = this.heap[ArrayHeap.NUM_CHILDREN * i + 1];
+            int smallIndex = ArrayHeap.NUM_CHILDREN * i + 1;
             
-        } else if (this.heap[i].compareTo(this.heap[ArrayHeap.NUM_CHILDREN * i + 3]) > 0) {
+            if (smallest.compareTo(this.heap[ArrayHeap.NUM_CHILDREN * i + 2]) > 0) {
+                smallest = this.heap[ArrayHeap.NUM_CHILDREN * i + 2];
+                smallIndex = ArrayHeap.NUM_CHILDREN * i + 2;
+            }
+            if (smallest.compareTo(this.heap[ArrayHeap.NUM_CHILDREN * i + 3]) > 0) {
+                smallest = this.heap[ArrayHeap.NUM_CHILDREN * i + 3];
+                smallIndex = ArrayHeap.NUM_CHILDREN * i + 3;
+            }
+            if (smallest.compareTo(this.heap[ArrayHeap.NUM_CHILDREN * i + 4]) > 0) {
+                smallest = this.heap[ArrayHeap.NUM_CHILDREN * i + 4];
+                smallIndex = ArrayHeap.NUM_CHILDREN * i + 4;
+            }
             
-        } else if (this.heap[i].compareTo(this.heap[ArrayHeap.NUM_CHILDREN * i + 4]) > 0) {
+            this.heap[i] = smallest;
+            this.heap[smallIndex] = item;
+            percolate(item, smallIndex);
             
         } else {
-            return i;
+            // less pedophilic base cases
+            if (!this.hasNoKids(i)) {
+                int smallIndex = ArrayHeap.NUM_CHILDREN * i + 1;
+                T small = this.heap[smallIndex];
+                
+                if (this.heap[ArrayHeap.NUM_CHILDREN * i + 2] != null) {
+                    if (small.compareTo(this.heap[ArrayHeap.NUM_CHILDREN * i + 2]) > 0) {
+                        smallIndex = ArrayHeap.NUM_CHILDREN * i + 2;
+                        small = this.heap[smallIndex];
+                    }
+                }
+                
+                if (this.heap[ArrayHeap.NUM_CHILDREN * i + 3] != null) {
+                    if (small.compareTo(this.heap[ArrayHeap.NUM_CHILDREN * i + 3]) > 0) {
+                        smallIndex = ArrayHeap.NUM_CHILDREN * i + 3;
+                        small = this.heap[smallIndex];
+                    }
+                }
+                
+                this.heap[i] = small;
+                this.heap[smallIndex] = item;
+            }
         }
-        // this is a placeholder until rest of code is written
-        return 0;
+    }
+    
+    private boolean hasNoKids(int i) {
+        return (this.heap[ArrayHeap.NUM_CHILDREN * i + 1] == null && this.heap[ArrayHeap.NUM_CHILDREN * i + 2] == null)
+                && (this.heap[ArrayHeap.NUM_CHILDREN * i + 3] == null && this.heap[ArrayHeap.NUM_CHILDREN * i + 4] == null);
+    }
+    
+    private boolean hasMaxKids(int i) {
+        return (this.heap[ArrayHeap.NUM_CHILDREN * i + 1] != null && this.heap[ArrayHeap.NUM_CHILDREN * i + 2] != null) 
+                && (this.heap[ArrayHeap.NUM_CHILDREN * i + 3] != null && this.heap[ArrayHeap.NUM_CHILDREN * i + 4] != null);
     }
     
     private void reSize() {
