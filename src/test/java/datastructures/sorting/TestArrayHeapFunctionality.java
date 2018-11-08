@@ -139,6 +139,7 @@ public class TestArrayHeapFunctionality extends BaseTest {
         for(int i = 0; i < 20; i++) {
             heap.insert(i);
         }
+        assertTrue(!heap.isEmpty());
         for(int i = 0; i < 20; i++) {
             heap.removeMin();
         }

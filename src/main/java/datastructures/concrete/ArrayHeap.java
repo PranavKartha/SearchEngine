@@ -2,7 +2,6 @@ package datastructures.concrete;
 
 import datastructures.interfaces.IPriorityQueue;
 import misc.exceptions.EmptyContainerException;
-import misc.exceptions.NotYetImplementedException;
 
 /**
  * See IPriorityQueue for details on what each method must do.
@@ -83,7 +82,11 @@ public class ArrayHeap<T extends Comparable<T>> implements IPriorityQueue<T> {
         }
         
         // insertion
-        insertHelper(item, 0);
+        if (this.isEmpty()) {
+            this.heap[0] = item;
+        } else {
+            insertHelper(item, 0);
+        }
         
         //traverse to correct place, relocate shit as needed
         // put that bitch/bicboi down
