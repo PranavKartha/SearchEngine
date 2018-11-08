@@ -23,6 +23,28 @@ public class TestArrayHeapFunctionality extends BaseTest {
         heap.insert(3);
         assertEquals(1, heap.size());
         assertTrue(!heap.isEmpty());
+    
+    }
+    
+    
+    @Test(timeout=SECOND)
+    public void testInsertBasic() {
+        IPriorityQueue<Integer> heap = this.makeInstance();
+        for(int i = 0; i < 6; i++) {
+            heap.insert(i);
+            assertEquals(i + 1, heap.size());
+        }
+    }
+    
+    @Test(timeout=SECOND)
+    public void testRemovePeekMin() {
+        IPriorityQueue<Integer> heap = this.makeInstance();
+        for(int i = 0; i < 6; i++) {
+            heap.insert(i);
+        }
+        for(int i = 0; i < 6; i ++) {
+            assertEquals(heap.peekMin(), heap.removeMin());
+        }
     }
     
     @Test(timeout=SECOND)
