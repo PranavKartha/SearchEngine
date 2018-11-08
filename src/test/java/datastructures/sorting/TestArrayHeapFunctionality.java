@@ -3,6 +3,8 @@ package datastructures.sorting;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.util.Arrays;
+
 import misc.BaseTest;
 import misc.exceptions.EmptyContainerException;
 import datastructures.concrete.ArrayHeap;
@@ -27,16 +29,16 @@ public class TestArrayHeapFunctionality extends BaseTest {
     }
     
     
-    @Test(timeout=SECOND)
+    @Test(timeout = SECOND)
     public void testInsertBasic() {
         IPriorityQueue<Integer> heap = this.makeInstance();
-        for(int i = 0; i < 6; i++) {
+        for(int i = 0; i < 20; i++) {
             heap.insert(i);
             assertEquals(i + 1, heap.size());
         }
     }
     
-    @Test(timeout=SECOND)
+    @Test()
     public void testRemovePeekMin() {
         IPriorityQueue<Integer> heap = this.makeInstance();
         for(int i = 0; i < 20; i++) {
@@ -55,7 +57,7 @@ public class TestArrayHeapFunctionality extends BaseTest {
             assertEquals(i, heap.peekMin());
         }
         
-        for (int i =-9; i <= 0; i++) {
+        for (int i =-9; i < 0; i++) {
             assertEquals(i, heap.removeMin());
         }
         
@@ -121,15 +123,22 @@ public class TestArrayHeapFunctionality extends BaseTest {
         }      
     }
     
-    @Test(timeout=SECOND)
+    @Test()
     public void testRemoveMin() {
         IPriorityQueue<Integer> heap = this.makeInstance();
         for(int i = 0; i < 20; i++) {
             heap.insert(i);
         }
-        for(int i = 0; i < 20; i++) {
+        
+        
+        
+        for(int i = 0; i < 19; i++) {
+            System.out.println(i);
+            
+            System.out.println(heap.peekMin());
             assertEquals(i, heap.removeMin());
         }
+        System.out.println(heap.peekMin());
     }
     
     @Test(timeout=SECOND)

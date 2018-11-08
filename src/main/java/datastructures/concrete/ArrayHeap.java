@@ -14,7 +14,6 @@ public class ArrayHeap<T extends Comparable<T>> implements IPriorityQueue<T> {
     // You may NOT rename this field: we will be inspecting it within
     // our private tests.
     private T[] heap;
-
     // Feel free to add more fields and constants.
     private static final int STARTING_SIZE = 5;
     private int size;
@@ -49,8 +48,7 @@ public class ArrayHeap<T extends Comparable<T>> implements IPriorityQueue<T> {
         this.heap[0] = this.heap[this.size - 1];
         this.heap[this.size - 1] = null;
         
-        // percolate method from top
-        // percolate(item, 0);
+        percolate(heap[0], 0);
         
         this.size--;
         
@@ -65,6 +63,8 @@ public class ArrayHeap<T extends Comparable<T>> implements IPriorityQueue<T> {
         
         return this.heap[0];
     }
+    
+
 
     @Override
     public void insert(T item) {
@@ -142,7 +142,7 @@ public class ArrayHeap<T extends Comparable<T>> implements IPriorityQueue<T> {
     
     private void relocate(T item, int i) {
         T parentData = this.heap[(i - 1) / ArrayHeap.NUM_CHILDREN];
-        if (item.compareTo(parentData) > 0) {
+        if (item.compareTo(parentData) < 0) {
             heap[(i - 1) / ArrayHeap.NUM_CHILDREN] = item;
             heap[i] = parentData;
             relocate(item, (i - 1) / ArrayHeap.NUM_CHILDREN);
@@ -155,57 +155,68 @@ public class ArrayHeap<T extends Comparable<T>> implements IPriorityQueue<T> {
         // first check
         // base: not all kids are there
         // aka the kids arent all right
-        
-        if (this.hasMaxKids(i)) {
+        if(size <= ArrayHeap.NUM_CHILDREN + 1) {
+            for(int i1 = 0; i1 < size; i1++) {
+                if(heap[0].compareTo(heap[i1]) > 0) {
+                    T top = heap[0];
+                    heap[0] = heap[i1];
+                    heap[i1] = top;        
+                }
+            }
+        }else {
+       
+            if (this.hasMaxKids(i)) {
             // #hail4Kids
             
             // pick smallest child
             // penetrate them... wait, no, um.. i mean-- percolate them
-            T smallest = this.heap[ArrayHeap.NUM_CHILDREN * i + 1];
-            int smallIndex = ArrayHeap.NUM_CHILDREN * i + 1;
-            
-            if (smallest.compareTo(this.heap[ArrayHeap.NUM_CHILDREN * i + 2]) > 0) {
-                smallest = this.heap[ArrayHeap.NUM_CHILDREN * i + 2];
-                smallIndex = ArrayHeap.NUM_CHILDREN * i + 2;
-            }
-            if (smallest.compareTo(this.heap[ArrayHeap.NUM_CHILDREN * i + 3]) > 0) {
-                smallest = this.heap[ArrayHeap.NUM_CHILDREN * i + 3];
-                smallIndex = ArrayHeap.NUM_CHILDREN * i + 3;
-            }
-            if (smallest.compareTo(this.heap[ArrayHeap.NUM_CHILDREN * i + 4]) > 0) {
-                smallest = this.heap[ArrayHeap.NUM_CHILDREN * i + 4];
-                smallIndex = ArrayHeap.NUM_CHILDREN * i + 4;
-            }
-            
-            this.heap[i] = smallest;
-            this.heap[smallIndex] = item;
-            percolate(item, smallIndex);
-            
-        } else {
-            // less pedophilic base cases... you heard me
-            if (!this.hasNoKids(i)) {
+                T smallest = this.heap[ArrayHeap.NUM_CHILDREN * i + 1];
                 int smallIndex = ArrayHeap.NUM_CHILDREN * i + 1;
-                T small = this.heap[smallIndex];
-                
-                if (this.heap[ArrayHeap.NUM_CHILDREN * i + 2] != null) {
-                    if (small.compareTo(this.heap[ArrayHeap.NUM_CHILDREN * i + 2]) > 0) {
-                        smallIndex = ArrayHeap.NUM_CHILDREN * i + 2;
-                        small = this.heap[smallIndex];
-                    }
+            
+                if (smallest.compareTo(this.heap[ArrayHeap.NUM_CHILDREN * i + 2]) > 0) {
+                    smallest = this.heap[ArrayHeap.NUM_CHILDREN * i + 2];
+                    smallIndex = ArrayHeap.NUM_CHILDREN * i + 2;
                 }
-                
-                if (this.heap[ArrayHeap.NUM_CHILDREN * i + 3] != null) {
-                    if (small.compareTo(this.heap[ArrayHeap.NUM_CHILDREN * i + 3]) > 0) {
-                        smallIndex = ArrayHeap.NUM_CHILDREN * i + 3;
-                        small = this.heap[smallIndex];
-                    }
+                if (smallest.compareTo(this.heap[ArrayHeap.NUM_CHILDREN * i + 3]) > 0) {
+                    smallest = this.heap[ArrayHeap.NUM_CHILDREN * i + 3];
+                    smallIndex = ArrayHeap.NUM_CHILDREN * i + 3;
                 }
-                
-                this.heap[i] = small;
+                if (smallest.compareTo(this.heap[ArrayHeap.NUM_CHILDREN * i + 4]) > 0) {
+                    smallest = this.heap[ArrayHeap.NUM_CHILDREN * i + 4];
+                    smallIndex = ArrayHeap.NUM_CHILDREN * i + 4;
+                }
+            
+                this.heap[i] = smallest;
                 this.heap[smallIndex] = item;
+                if(smallIndex != 0) {
+                    percolate(item, smallIndex);
+                }    
+            } else {
+                // less pedophilic base cases... you heard me
+                if (!this.hasNoKids(i)) {
+                    int smallIndex = ArrayHeap.NUM_CHILDREN * i + 1;
+                    T small = this.heap[smallIndex];
+                
+                    if (this.heap[ArrayHeap.NUM_CHILDREN * i + 2] != null) {
+                        if (small.compareTo(this.heap[ArrayHeap.NUM_CHILDREN * i + 2]) > 0) {
+                            smallIndex = ArrayHeap.NUM_CHILDREN * i + 2;
+                            small = this.heap[smallIndex];
+                        }
+                    }
+                
+                    if (this.heap[ArrayHeap.NUM_CHILDREN * i + 3] != null) {
+                        if (small.compareTo(this.heap[ArrayHeap.NUM_CHILDREN * i + 3]) > 0) {
+                            smallIndex = ArrayHeap.NUM_CHILDREN * i + 3;
+                            small = this.heap[smallIndex];
+                        }
+                    }
+                
+                    this.heap[i] = small;
+                    this.heap[smallIndex] = item;
+                }
             }
         }
-    }
+    }    
     
     private boolean hasNoKids(int i) {
         return (this.heap[ArrayHeap.NUM_CHILDREN * i + 1] == null && this.heap[ArrayHeap.NUM_CHILDREN * i + 2] == null)
