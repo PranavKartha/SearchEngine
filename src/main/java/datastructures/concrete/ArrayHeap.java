@@ -77,10 +77,10 @@ public class ArrayHeap<T extends Comparable<T>> implements IPriorityQueue<T> {
         // increment size
         this.size++;
         
-        if (this.size > this.heap.length) {
-            // resize
-            this.reSize();
-        }
+//        if (this.size > this.heap.length) {
+//            // resize
+//            this.reSize();
+//        }
         
         // insertion
         insertHelper(item, 0);
@@ -90,20 +90,24 @@ public class ArrayHeap<T extends Comparable<T>> implements IPriorityQueue<T> {
     }
     
     private void insertHelper(T item, int i) {
-        if ((ArrayHeap.NUM_CHILDREN * i) + 4 > this.heap.length) {
-            this.reSize();
-        }
-        if (this.heap[(ArrayHeap.NUM_CHILDREN * i) + 1] == null) {
-            childCheck(item, i, 1);
-        } else if (this.heap[(ArrayHeap.NUM_CHILDREN * i) + 2] == null) {
-            childCheck(item, i, 2);
-        } else if (this.heap[(ArrayHeap.NUM_CHILDREN * i) + 3] == null) {
-            childCheck(item, i, 3);
-        } else if (this.heap[(ArrayHeap.NUM_CHILDREN * i) + 4] == null) {
-            childCheck(item, i, 4);
-        } else {
-            this.insertHelper(item, i + 1);
-        }
+        if(heap[0] == null) {
+            heap[0] = item;
+        }else{
+            if ((ArrayHeap.NUM_CHILDREN * i) + 4 > this.heap.length) {
+                this.reSize();
+            }
+            if (this.heap[(ArrayHeap.NUM_CHILDREN * i) + 1] == null) {
+                childCheck(item, i, 1);
+            } else if (this.heap[(ArrayHeap.NUM_CHILDREN * i) + 2] == null) {
+                childCheck(item, i, 2);
+            } else if (this.heap[(ArrayHeap.NUM_CHILDREN * i) + 3] == null) {
+                childCheck(item, i, 3);
+            } else if (this.heap[(ArrayHeap.NUM_CHILDREN * i) + 4] == null) {
+                childCheck(item, i, 4);
+            } else {
+                this.insertHelper(item, i + 1);
+            }
+        }    
 //        if(item.compareTo(this.heap[i]) > 0) {
 //            if(this.heap[(ArrayHeap.NUM_CHILDREN * i) + 1] == null) {
 //                this.heap[(ArrayHeap.NUM_CHILDREN * i) + 1] = item;

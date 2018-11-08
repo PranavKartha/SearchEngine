@@ -39,10 +39,10 @@ public class TestArrayHeapFunctionality extends BaseTest {
     @Test(timeout=SECOND)
     public void testRemovePeekMin() {
         IPriorityQueue<Integer> heap = this.makeInstance();
-        for(int i = 0; i < 6; i++) {
+        for(int i = 0; i < 20; i++) {
             heap.insert(i);
         }
-        for(int i = 0; i < 6; i ++) {
+        for(int i = 0; i < 20; i ++) {
             assertEquals(heap.peekMin(), heap.removeMin());
         }
     }
