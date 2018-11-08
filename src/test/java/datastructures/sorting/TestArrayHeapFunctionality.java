@@ -57,7 +57,7 @@ public class TestArrayHeapFunctionality extends BaseTest {
             assertEquals(i, heap.peekMin());
         }
         
-        for (int i =-9; i < 0; i++) {
+        for (int i = -9; i <= 0; i++) {
             assertEquals(i, heap.removeMin());
         }
         
