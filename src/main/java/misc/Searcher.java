@@ -31,14 +31,19 @@ public class Searcher {
         //   generic classes: just use the 'T' generic type as if it were a regular type.
         //
         // - You should implement this method by using your ArrayHeap for the sake of
-        //   efficiency. 
+        //   efficiency.
         
             if (k < 0) {
                 throw new IllegalArgumentException();
             }
             
+            
             IPriorityQueue<T> heap = new ArrayHeap<>();
             IList<T> list = new DoubleLinkedList<T>();
+            
+            if(k == 0) {
+                return list;
+            }
             if (k > input.size()) {
                 for (T item:input) {
                     heap.insert(item);
