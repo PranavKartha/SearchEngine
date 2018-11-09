@@ -114,7 +114,7 @@ public class ArrayHeap<T extends Comparable<T>> implements IPriorityQueue<T> {
             this.heap[(ArrayHeap.NUM_CHILDREN * i) + childNum] = item;
         } else {
             relocate(item, (ArrayHeap.NUM_CHILDREN * i) + childNum);
-        //relocate
+            //relocate
         }
     }
     
@@ -153,7 +153,7 @@ public class ArrayHeap<T extends Comparable<T>> implements IPriorityQueue<T> {
                         ||(item.compareTo(this.heap[ArrayHeap.NUM_CHILDREN * i + 3]) > 0
                                 || item.compareTo(this.heap[ArrayHeap.NUM_CHILDREN * i + 4]) > 0)){
                       // pick smallest child
-                      // penetrate them... wait, no, um.. i mean-- percolate them
+                      // infiltrate them... wait, no, um.. i mean-- percolate them
                       T smallest = this.heap[ArrayHeap.NUM_CHILDREN * i + 1];
                       int smallIndex = ArrayHeap.NUM_CHILDREN * i + 1;
                   

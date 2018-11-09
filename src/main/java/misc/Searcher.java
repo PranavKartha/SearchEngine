@@ -1,7 +1,5 @@
 package misc;
 
-import java.util.Iterator;
-
 import datastructures.concrete.ArrayHeap;
 import datastructures.concrete.DoubleLinkedList;
 import datastructures.interfaces.IList;
@@ -38,28 +36,46 @@ public class Searcher {
             if (k < 0) {
                 throw new IllegalArgumentException();
             }
+            
             IPriorityQueue<T> heap = new ArrayHeap<>();
             IList<T> list = new DoubleLinkedList<T>();
-            Iterator<T> iterator = input.iterator();
             if (k > input.size()) {
-                while (iterator.hasNext()) {
-                    heap.insert(iterator.next());
+//                while (iterator.hasNext()) {
+//                    heap.insert(iterator.next());
+//                }
+//                while (heap.size() != 0) {
+//                    list.add(heap.removeMin());
+//                }
+                for (int i = 0; i < input.size(); i++) {
+                    heap.insert(input.get(i));
                 }
-                while (heap.size() != 0) {
+                for (int i = 0; i < input.size(); i++) {
                     list.add(heap.removeMin());
                 }
+                
                 return list;
             }
             
-            for(T item:input) {
+//            for(T item:input) {
+//                if (heap.size() < k) {
+//                    heap.insert(item);
+//                } else {
+//                    if (item.compareTo(heap.peekMin()) > 0) {
+//                        heap.removeMin();
+//                        heap.insert(item);
+//                    }
+//                }
+//            }
+            
+            for (int i = 0; i < input.size(); i++) {
                 if (heap.size() < k) {
-                    heap.insert(item);
-                } else {
-                    if (item.compareTo(heap.peekMin()) > 0) {
-                        heap.removeMin();
-                        heap.insert(item);
-                    }
-                }
+                  heap.insert(input.get(i));
+              } else {
+                  if (input.get(i).compareTo(heap.peekMin()) > 0) {
+                      heap.removeMin();
+                      heap.insert(input.get(i));
+                  }
+              }
             }
             
             for (int i = 0; i < k; i++) {

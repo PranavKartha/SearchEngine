@@ -41,7 +41,7 @@ public class TestSortingStress extends BaseTest {
     @Test(timeout=10*SECOND)
     public void testTopKSortStress() {
         IList<String> list = new DoubleLinkedList<>();
-        int cap = 100000;
+        int cap = 50000;
         for (int i = 0; i < cap; i++) {
             list.add("" + i);
         }
