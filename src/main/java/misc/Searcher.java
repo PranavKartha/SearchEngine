@@ -4,7 +4,7 @@ import datastructures.concrete.ArrayHeap;
 import datastructures.concrete.DoubleLinkedList;
 import datastructures.interfaces.IList;
 import datastructures.interfaces.IPriorityQueue;
-//
+
 public class Searcher {
     /**
      * This method takes the input list and returns the top k elements
@@ -46,8 +46,8 @@ public class Searcher {
 //                while (heap.size() != 0) {
 //                    list.add(heap.removeMin());
 //                }
-                for (int i = 0; i < input.size(); i++) {
-                    heap.insert(input.remove());
+                for (T item:input) {
+                    heap.insert(item);
                 }
                 for (int i = 0; i < input.size(); i++) {
                     list.add(heap.removeMin());
@@ -66,9 +66,8 @@ public class Searcher {
 //                    }
 //                }
 //            }
-            int size = input.size();
-            for (int i = 0; i < size; i++) {
-                T item = input.remove();
+            
+            for (T item:input) {
                 if (heap.size() < k) {
                   heap.insert(item);
               } else {
@@ -77,8 +76,6 @@ public class Searcher {
                       heap.insert(item);
                   }
               }
-               input.add(item);
-
             }
             
             for (int i = 0; i < k; i++) {
