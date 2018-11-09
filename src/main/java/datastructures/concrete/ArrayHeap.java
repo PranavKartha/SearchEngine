@@ -16,15 +16,15 @@ public class ArrayHeap<T extends Comparable<T>> implements IPriorityQueue<T> {
     private T[] heap;
     // Feel free to add more fields and constants.
     private static final int STARTING_SIZE = 5;
-    private int size;
+    private int count;
     
     public ArrayHeap() {
         this.heap = makeArrayOfT(STARTING_SIZE);
-        this.size = 0;
+        this.count = 0;
     }
 
     /**
-     * This method will return a new, empty array of the given size
+     * This method will return a new, empty array of the given count
      * that can contain elements of type T.
      *
      * Note that each element in the array will initially be null.
@@ -45,10 +45,10 @@ public class ArrayHeap<T extends Comparable<T>> implements IPriorityQueue<T> {
             throw new EmptyContainerException();
         }
         T result = this.heap[0];
-        this.heap[0] = this.heap[this.size - 1];
-        this.heap[this.size - 1] = null;
+        this.heap[0] = this.heap[this.count - 1];
+        this.heap[this.count - 1] = null;
 
-        this.size--;
+        this.count--;
         
         percolate(heap[0], 0);
         
@@ -73,8 +73,8 @@ public class ArrayHeap<T extends Comparable<T>> implements IPriorityQueue<T> {
         }
         
         // reorganizing happens here
-        // increment size
-        this.size++;
+        // increment count
+        this.count++;
         
         
         // insertion
@@ -93,7 +93,7 @@ public class ArrayHeap<T extends Comparable<T>> implements IPriorityQueue<T> {
             heap[0] = item;
         } else {
             if ((ArrayHeap.NUM_CHILDREN * i) + 4 > this.heap.length) {
-                this.reSize();
+                this.recount();
             }
             if (this.heap[(ArrayHeap.NUM_CHILDREN * i) + 1] == null) {
                 childCheck(item, i, 1);
@@ -134,8 +134,8 @@ public class ArrayHeap<T extends Comparable<T>> implements IPriorityQueue<T> {
         // first check
         // base: not all kids are there
         // aka the kids arent all right
-        if (size <= ArrayHeap.NUM_CHILDREN + 1) {
-            for (int i1 = 0; i1 < size; i1++) {
+        if (count <= ArrayHeap.NUM_CHILDREN + 1) {
+            for (int i1 = 0; i1 < count; i1++) {
                 if (heap[0].compareTo(heap[i1]) > 0) {
                     T top = heap[0];
                     heap[0] = heap[i1];
@@ -184,21 +184,21 @@ public class ArrayHeap<T extends Comparable<T>> implements IPriorityQueue<T> {
                     int smallIndex = i;
                     T small = this.heap[i];
                 
-                    if ((ArrayHeap.NUM_CHILDREN * i + 1) < this.size) {
+                    if ((ArrayHeap.NUM_CHILDREN * i + 1) < this.count) {
                         if (small.compareTo(this.heap[ArrayHeap.NUM_CHILDREN * i + 1]) > 0) {
                             smallIndex = ArrayHeap.NUM_CHILDREN * i + 1;
                             small = this.heap[smallIndex];
                         }
                     }
                 
-                    if ((ArrayHeap.NUM_CHILDREN * i + 2) < this.size) {
+                    if ((ArrayHeap.NUM_CHILDREN * i + 2) < this.count) {
                         if (small.compareTo(this.heap[ArrayHeap.NUM_CHILDREN * i + 2]) > 0) {
                             smallIndex = ArrayHeap.NUM_CHILDREN * i + 2;
                             small = this.heap[smallIndex];
                         }
                     }
                     
-                    if ((ArrayHeap.NUM_CHILDREN * i + 3) < this.size) {
+                    if ((ArrayHeap.NUM_CHILDREN * i + 3) < this.count) {
                         if (small.compareTo(this.heap[ArrayHeap.NUM_CHILDREN * i + 3]) > 0) {
                             smallIndex = ArrayHeap.NUM_CHILDREN * i + 3;
                             small = this.heap[smallIndex];
@@ -215,14 +215,14 @@ public class ArrayHeap<T extends Comparable<T>> implements IPriorityQueue<T> {
     }    
     
     private boolean hasNoKids(int i) {
-        return ArrayHeap.NUM_CHILDREN * i + 1 < this.size;
+        return ArrayHeap.NUM_CHILDREN * i + 1 < this.count;
     }
     
     private boolean hasMaxKids(int i) {
-        return ArrayHeap.NUM_CHILDREN * i + 4 < this.size;
+        return ArrayHeap.NUM_CHILDREN * i + 4 < this.count;
     }
     
-    private void reSize() {
+    private void recount() {
         T[] newHeap = this.makeArrayOfT(this.heap.length * (ArrayHeap.NUM_CHILDREN + 1));
         for (int i = 0; i < this.heap.length; i++) {
             newHeap[i] = this.heap[i];
@@ -232,6 +232,6 @@ public class ArrayHeap<T extends Comparable<T>> implements IPriorityQueue<T> {
 
     @Override
     public int size() {
-        return this.size;
+        return this.count;
     }
 }
