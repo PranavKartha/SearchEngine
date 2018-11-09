@@ -41,6 +41,17 @@ public class Searcher {
             ArrayHeap<T> heap = new ArrayHeap<T>();
             DoubleLinkedList <T> list = new DoubleLinkedList<T>();
             Iterator <T> iterator = input.iterator();
+            if(k > input.size()) {
+                while(iterator.hasNext()) {
+                    heap.insert(iterator.next());
+                }
+                while(heap.size() != 0) {
+                    list.add(heap.removeMin());
+                }
+                return list;
+            }
+            
+            
             while(iterator.hasNext()) {
                 T next = iterator.next();
                 if(heap.size() < k) {
