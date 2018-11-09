@@ -37,15 +37,14 @@ public class Searcher {
                 throw new IllegalArgumentException();
             }
             
+            
             IPriorityQueue<T> heap = new ArrayHeap<>();
             IList<T> list = new DoubleLinkedList<T>();
+            
+            if(k == 0) {
+                return list;
+            }
             if (k > input.size()) {
-//                while (iterator.hasNext()) {
-//                    heap.insert(iterator.next());
-//                }
-//                while (heap.size() != 0) {
-//                    list.add(heap.removeMin());
-//                }
                 for (T item:input) {
                     heap.insert(item);
                 }
@@ -56,16 +55,6 @@ public class Searcher {
                 return list;
             }
             
-//            for(T item:input) {
-//                if (heap.size() < k) {
-//                    heap.insert(item);
-//                } else {
-//                    if (item.compareTo(heap.peekMin()) > 0) {
-//                        heap.removeMin();
-//                        heap.insert(item);
-//                    }
-//                }
-//            }
             
             for (T item:input) {
                 if (heap.size() < k) {
