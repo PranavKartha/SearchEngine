@@ -24,7 +24,7 @@ public class TestSortingStress extends BaseTest {
     public void testHeapInsertPeekRemoveStress() {
         IPriorityQueue<Integer> heap = this.makeInstance();
         assertTrue(heap.isEmpty());
-        int cap = 100000;
+        int cap = 50000;
         for (int i = 0; i < cap; i++) {
             heap.insert(i);
         }
