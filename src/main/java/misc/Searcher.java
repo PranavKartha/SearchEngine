@@ -52,23 +52,20 @@ public class Searcher {
             }
             
             for(T item:input) {
-//                if (heap.size() < k) {
-//                  heap.insert(item);
-//              }else {
-//                  if (item.compareTo(heap.peekMin()) > 0) {
-//                     heap.removeMin();
-//                     heap.insert(item);
-//                  }
-//              }
-                heap.insert(item);
+                if (heap.size() < k) {
+                    heap.insert(item);
+                } else {
+                    if (item.compareTo(heap.peekMin()) > 0) {
+                        heap.removeMin();
+                        heap.insert(item);
+                    }
+                }
             }
             
-            for (int i = 0; i < (input.size() - k); i++) {
-                heap.removeMin();
-            }
             for (int i = 0; i < k; i++) {
                 list.add(heap.removeMin());
-            }       
+            }
+                       
         
             return list;
     }
