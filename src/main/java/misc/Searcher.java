@@ -47,7 +47,7 @@ public class Searcher {
 //                    list.add(heap.removeMin());
 //                }
                 for (int i = 0; i < input.size(); i++) {
-                    heap.insert(input.get(i));
+                    heap.insert(input.remove());
                 }
                 for (int i = 0; i < input.size(); i++) {
                     list.add(heap.removeMin());
@@ -69,11 +69,12 @@ public class Searcher {
             
             for (int i = 0; i < input.size(); i++) {
                 if (heap.size() < k) {
-                  heap.insert(input.get(i));
+                  heap.insert(input.remove());
               } else {
-                  if (input.get(i).compareTo(heap.peekMin()) > 0) {
+                  T item = input.remove();
+                  if (item.compareTo(heap.peekMin()) > 0) {
                       heap.removeMin();
-                      heap.insert(input.get(i));
+                      heap.insert(item);
                   }
               }
             }
