@@ -12,6 +12,7 @@ import datastructures.interfaces.IPriorityQueue;
 
 import static org.junit.Assert.assertTrue;
 
+//
 /**
  * See spec for details on what kinds of tests this class should include. 
  */
@@ -47,7 +48,10 @@ public class TestSortingStress extends BaseTest {
         }
         assertEquals(cap, list.size());
         
-        IList<String> top = Searcher.topKSort(cap/3, list);
-        assertEquals(cap/3, top.size());
+        int repeats = 2;
+        for (int i = 0; i < repeats; i++) {
+            IList<String> top = Searcher.topKSort(cap/3, list);
+            assertEquals(cap/3, top.size());
+        }
     }
 }
