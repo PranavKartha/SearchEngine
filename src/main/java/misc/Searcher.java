@@ -5,6 +5,7 @@ import java.util.Iterator;
 import datastructures.concrete.ArrayHeap;
 import datastructures.concrete.DoubleLinkedList;
 import datastructures.interfaces.IList;
+import datastructures.interfaces.IPriorityQueue;
 
 public class Searcher {
     /**
@@ -37,7 +38,7 @@ public class Searcher {
             if (k < 0) {
                 throw new IllegalArgumentException();
             }
-            ArrayHeap<T> heap = new ArrayHeap<T>();
+            IPriorityQueue<T> heap = new ArrayHeap<>();
             IList<T> list = new DoubleLinkedList<T>();
             Iterator<T> iterator = input.iterator();
             if (k > input.size()) {
