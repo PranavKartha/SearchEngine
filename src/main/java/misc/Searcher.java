@@ -23,7 +23,7 @@ public class Searcher {
     public static <T extends Comparable<T>> IList<T> topKSort(int k, IList<T> input) {
         // Implementation notes:
         //
-        // - This static method is a _generic method_. A generic method is similar to
+        // - This static method is a _generic method_. A generic method is similar to 
         //   the generic methods we covered in class, except that the generic parameter
         //   is used only within this method.
         //
@@ -40,13 +40,9 @@ public class Searcher {
             IPriorityQueue<T> heap = new ArrayHeap<>();
             IList<T> list = new DoubleLinkedList<T>();
             if (k > input.size()) {
-//                while (iterator.hasNext()) {
-//                    heap.insert(iterator.next());
-//                }
-//                while (heap.size() != 0) {
-//                    list.add(heap.removeMin());
-//                }
+                
                 for (int i = 0; i < input.size(); i++) {
+                    
                     heap.insert(input.remove());
                 }
                 for (int i = 0; i < input.size(); i++) {
@@ -56,27 +52,16 @@ public class Searcher {
                 return list;
             }
             
-//            for(T item:input) {
-//                if (heap.size() < k) {
-//                    heap.insert(item);
-//                } else {
-//                    if (item.compareTo(heap.peekMin()) > 0) {
-//                        heap.removeMin();
-//                        heap.insert(item);
-//                    }
-//                }
-//            }
-            
             for (int i = 0; i < input.size(); i++) {
                 if (heap.size() < k) {
-                  heap.insert(input.remove());
-              } else {
-                  T item = input.remove();
-                  if (item.compareTo(heap.peekMin()) > 0) {
-                      heap.removeMin();
-                      heap.insert(item);
-                  }
-              }
+                    heap.insert(input.remove());
+                } else {
+                    T item = input.remove();
+                    if (item.compareTo(heap.peekMin()) > 0) {
+                        heap.removeMin();
+                        heap.insert(item);
+                    }
+                }
             }
             
             for (int i = 0; i < k; i++) {
