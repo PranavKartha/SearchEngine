@@ -24,15 +24,14 @@ public class TestSortingStress extends BaseTest {
     public void testHeapInsertPeekRemoveStress() {
         IPriorityQueue<Integer> heap = this.makeInstance();
         assertTrue(heap.isEmpty());
-        int cap = 300000;
+        int cap = 100000;
         for (int i = 0; i < cap; i++) {
             heap.insert(i);
-            assertEquals(i, heap.peekMin());
         }
         
         assertTrue(!heap.isEmpty());
         
-        for (int i = cap - 1; i >= 0; i--) {
+        for (int i = 0; i < cap; i++) {
             assertEquals(i, heap.removeMin());
         }
         
@@ -42,7 +41,7 @@ public class TestSortingStress extends BaseTest {
     @Test(timeout=10*SECOND)
     public void testTopKSortStress() {
         IList<String> list = new DoubleLinkedList<>();
-        int cap = 300000;
+        int cap = 100000;
         for (int i = 0; i < cap; i++) {
             list.add("" + i);
         }

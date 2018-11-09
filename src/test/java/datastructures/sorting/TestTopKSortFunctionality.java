@@ -13,7 +13,7 @@ import org.junit.Test;
  * See spec for details on what kinds of tests this class should include.
  */
 public class TestTopKSortFunctionality extends BaseTest {
-    @Test(timeout=SECOND)
+    @Test()
     public void testSimpleUsage() {
         IList<Integer> list = new DoubleLinkedList<>();
         for (int i = 0; i < 20; i++) {
