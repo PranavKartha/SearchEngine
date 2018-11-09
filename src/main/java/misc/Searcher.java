@@ -23,7 +23,7 @@ public class Searcher {
     public static <T extends Comparable<T>> IList<T> topKSort(int k, IList<T> input) {
         // Implementation notes:
         //
-        // - This static method is a _generic method_. A generic method is similar to 
+        // - This static method is a _generic method_. A generic method is similar to
         //   the generic methods we covered in class, except that the generic parameter
         //   is used only within this method.
         //
@@ -40,10 +40,8 @@ public class Searcher {
             IPriorityQueue<T> heap = new ArrayHeap<>();
             IList<T> list = new DoubleLinkedList<T>();
             if (k > input.size()) {
-                
-                for (int i = 0; i < input.size(); i++) {
-                    
-                    heap.insert(input.remove());
+                for (T item:input) {
+                    heap.insert(item);
                 }
                 for (int i = 0; i < input.size(); i++) {
                     list.add(heap.removeMin());
@@ -52,16 +50,16 @@ public class Searcher {
                 return list;
             }
             
-            for (int i = 0; i < input.size(); i++) {
+            
+            for (T item:input) {
                 if (heap.size() < k) {
-                    heap.insert(input.remove());
-                } else {
-                    T item = input.remove();
-                    if (item.compareTo(heap.peekMin()) > 0) {
-                        heap.removeMin();
-                        heap.insert(item);
-                    }
-                }
+                  heap.insert(item);
+              } else {
+                  if (item.compareTo(heap.peekMin()) > 0) {
+                      heap.removeMin();
+                      heap.insert(item);
+                  }
+              }
             }
             
             for (int i = 0; i < k; i++) {
