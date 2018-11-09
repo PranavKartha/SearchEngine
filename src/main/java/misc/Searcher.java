@@ -1,5 +1,7 @@
 package misc;
 
+import java.util.Iterator;
+
 import datastructures.concrete.ArrayHeap;
 import datastructures.concrete.DoubleLinkedList;
 import datastructures.interfaces.IList;
@@ -33,16 +35,20 @@ public class Searcher {
         // - You should implement this method by using your ArrayHeap for the sake of
         //   efficiency.
         
-        
+            if(k < 0) {
+                throw new IllegalArgumentException();
+            }
             ArrayHeap<T> heap = new ArrayHeap<T>();
             DoubleLinkedList <T> list = new DoubleLinkedList<T>();
-            for(int i = 0; i < input.size(); i++) {
+            Iterator <T> iterator = input.iterator();
+            while(iterator.hasNext()) {
+                T next = iterator.next();
                 if(heap.size() < k) {
-                    heap.insert(list.get(i));
+                    heap.insert(next);
                 }else {
-                    if(input.get(i).compareTo(heap.peekMin()) > 0) {
+                    if(next.compareTo(heap.peekMin()) > 0) {
                         heap.removeMin();
-                        heap.insert(input.get(i));
+                        heap.insert(next);
                     }
                 }
             }

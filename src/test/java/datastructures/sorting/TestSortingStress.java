@@ -47,7 +47,7 @@ public class TestSortingStress extends BaseTest {
         }
         assertEquals(cap, list.size());
         
-        int repeats = 5;
+        int repeats = 2;
         for (int i = 0; i < repeats; i++) {
             IList<String> top = Searcher.topKSort(cap/3, list);
             assertEquals(cap/3, top.size());
