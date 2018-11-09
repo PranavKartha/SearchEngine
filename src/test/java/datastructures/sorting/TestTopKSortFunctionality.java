@@ -49,4 +49,19 @@ public class TestTopKSortFunctionality extends BaseTest {
             assertEquals(i+1, topK.size());
         }
     }
+    
+    @Test(timeout=SECOND)
+    public void testNullInputs() {
+        IList<String> list = new DoubleLinkedList<>();
+        IList<String> topK;
+        list.add("");
+        list.add("oogiboogi");
+        list.add(null);
+        try {
+            topK = Searcher.topKSort(3, list);
+            fail("Excepted IllegalArgumentException");
+        } catch (IllegalArgumentException e) {
+            // yaay
+        }
+    }
 }

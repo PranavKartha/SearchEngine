@@ -5,7 +5,6 @@ import java.util.Iterator;
 import datastructures.concrete.ArrayHeap;
 import datastructures.concrete.DoubleLinkedList;
 import datastructures.interfaces.IList;
-import misc.exceptions.NotYetImplementedException;
 
 public class Searcher {
     /**
@@ -35,39 +34,38 @@ public class Searcher {
         // - You should implement this method by using your ArrayHeap for the sake of
         //   efficiency.
         
-            if(k < 0) {
+            if (k < 0) {
                 throw new IllegalArgumentException();
             }
             ArrayHeap<T> heap = new ArrayHeap<T>();
-            DoubleLinkedList <T> list = new DoubleLinkedList<T>();
-            Iterator <T> iterator = input.iterator();
-            if(k > input.size()) {
-                while(iterator.hasNext()) {
+            IList<T> list = new DoubleLinkedList<T>();
+            Iterator<T> iterator = input.iterator();
+            if (k > input.size()) {
+                while (iterator.hasNext()) {
                     heap.insert(iterator.next());
                 }
-                while(heap.size() != 0) {
+                while (heap.size() != 0) {
                     list.add(heap.removeMin());
                 }
                 return list;
             }
             
             
-            while(iterator.hasNext()) {
+            while (iterator.hasNext()) {
                 T next = iterator.next();
-                if(heap.size() < k) {
+                if (heap.size() < k) {
                     heap.insert(next);
                 }else {
-                    if(next.compareTo(heap.peekMin()) > 0) {
+                    if (next.compareTo(heap.peekMin()) > 0) {
                         heap.removeMin();
                         heap.insert(next);
                     }
                 }
             }
-            for(int i = 0; i < k; i++) {
+            for (int i = 0; i < k; i++) {
                 list.add(heap.removeMin());
             }
             return list;
-       // throw new NotYetImplementedException();
     }
     
 }
