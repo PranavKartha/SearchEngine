@@ -3,8 +3,6 @@ package datastructures.sorting;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import java.util.Arrays;
-
 import misc.BaseTest;
 import misc.exceptions.EmptyContainerException;
 import datastructures.concrete.ArrayHeap;
@@ -32,19 +30,19 @@ public class TestArrayHeapFunctionality extends BaseTest {
     @Test(timeout = SECOND)
     public void testInsertBasic() {
         IPriorityQueue<Integer> heap = this.makeInstance();
-        for(int i = 0; i < 20; i++) {
+        for (int i = 0; i < 20; i++) {
             heap.insert(i);
             assertEquals(i + 1, heap.size());
         }
     }
     
-    @Test()
+    @Test(timeout=SECOND)
     public void testRemovePeekMin() {
         IPriorityQueue<Integer> heap = this.makeInstance();
-        for(int i = 0; i < 20; i++) {
+        for (int i = 0; i < 20; i++) {
             heap.insert(i);
         }
-        for(int i = 0; i < 20; i ++) {
+        for (int i = 0; i < 20; i++) {
             assertEquals(heap.peekMin(), heap.removeMin());
         }
     }
@@ -118,7 +116,7 @@ public class TestArrayHeapFunctionality extends BaseTest {
     @Test(timeout=SECOND)
     public void testInsertAndPeekMin() {
         IPriorityQueue<Integer> heap = this.makeInstance();
-        for(int i = 20; i < 0; i--){
+        for (int i = 20; i < 0; i--){
             heap.insert(i);
             assertEquals(i, heap.peekMin());           
         }      
@@ -127,13 +125,13 @@ public class TestArrayHeapFunctionality extends BaseTest {
     @Test(timeout=SECOND)
     public void testRemoveMin() {
         IPriorityQueue<Integer> heap = this.makeInstance();
-        for(int i = 0; i < 20; i++) {
+        for (int i = 0; i < 20; i++) {
             heap.insert(i);
         }
         
         
         
-        for(int i = 0; i < 19; i++) {
+        for (int i = 0; i < 19; i++) {
             System.out.println(i);
             
             System.out.println(heap.peekMin());
@@ -146,11 +144,11 @@ public class TestArrayHeapFunctionality extends BaseTest {
     public void testIsEmpty() {
         IPriorityQueue<Integer> heap = this.makeInstance();
         assertTrue(heap.isEmpty());
-        for(int i = 0; i < 20; i++) {
+        for (int i = 0; i < 20; i++) {
             heap.insert(i);
         }
         assertTrue(!heap.isEmpty());
-        for(int i = 0; i < 20; i++) {
+        for (int i = 0; i < 20; i++) {
             heap.removeMin();
         }
         assertTrue(heap.isEmpty());

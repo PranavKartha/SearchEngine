@@ -13,7 +13,7 @@ import org.junit.Test;
  * See spec for details on what kinds of tests this class should include.
  */
 public class TestTopKSortFunctionality extends BaseTest {
-    @Test()
+    @Test(timeout=SECOND)
     public void testSimpleUsage() {
         IList<Integer> list = new DoubleLinkedList<>();
         for (int i = 0; i < 20; i++) {
@@ -39,15 +39,15 @@ public class TestTopKSortFunctionality extends BaseTest {
         }
     }
     
-    @Test(timeout=SECOND)
+    @Test//(timeout=SECOND)
     public void testKGreaterThanN() {
         IList<Integer> list = new DoubleLinkedList<>();
         IList<Integer> topK;
         for (int i = 0; i < 5; i++) {
             list.add(i);
-            topK = Searcher.topKSort(10, list);
-            assertEquals(i+1, topK.size());
         }
+        topK = Searcher.topKSort(10, list);
+        assertEquals(list.size(), topK.size());
     }
     
     @Test(timeout=SECOND)

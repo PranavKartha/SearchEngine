@@ -76,10 +76,6 @@ public class ArrayHeap<T extends Comparable<T>> implements IPriorityQueue<T> {
         // increment size
         this.size++;
         
-//        if (this.size > this.heap.length) {
-//            // resize
-//            this.reSize();
-//        }
         
         // insertion
         if (this.isEmpty()) {
@@ -89,13 +85,13 @@ public class ArrayHeap<T extends Comparable<T>> implements IPriorityQueue<T> {
         }
         
         //traverse to correct place, relocate shit as needed
-        // put that bitch/bicboi down
+        // put that boi down
     }
     
     private void insertHelper(T item, int i) {
-        if(heap[0] == null) {
+        if (heap[0] == null) {
             heap[0] = item;
-        }else{
+        } else {
             if ((ArrayHeap.NUM_CHILDREN * i) + 4 > this.heap.length) {
                 this.reSize();
             }
@@ -111,23 +107,6 @@ public class ArrayHeap<T extends Comparable<T>> implements IPriorityQueue<T> {
                 this.insertHelper(item, i + 1);
             }
         }    
-//        if(item.compareTo(this.heap[i]) > 0) {
-//            if(this.heap[(ArrayHeap.NUM_CHILDREN * i) + 1] == null) {
-//                this.heap[(ArrayHeap.NUM_CHILDREN * i) + 1] = item;
-//            }else if(this.heap[(ArrayHeap.NUM_CHILDREN * i) + 2] == null) {
-//                this.heap[(ArrayHeap.NUM_CHILDREN * i) + 2] = item;
-//            }else if(this.heap[(ArrayHeap.NUM_CHILDREN * i) + 3] == null) {
-//                this.heap[(ArrayHeap.NUM_CHILDREN * i) + 3] = item;   
-//            }else if(this.heap[(ArrayHeap.NUM_CHILDREN * i) + 4] == null) {
-//                this.heap[(ArrayHeap.NUM_CHILDREN * i) + 4] = item;
-//            }else {
-//                this.insertHelper(item, i + 1);
-//            }
-//        }else {
-//            //rearrange
-//            int newIndex = this.percolate(item, i);
-//            // then do insertHelper(item, newIndex);??
-//        }
     }
     
     public void childCheck(T item, int i, int childNum) {
@@ -135,7 +114,7 @@ public class ArrayHeap<T extends Comparable<T>> implements IPriorityQueue<T> {
             this.heap[(ArrayHeap.NUM_CHILDREN * i) + childNum] = item;
         } else {
             relocate(item, (ArrayHeap.NUM_CHILDREN * i) + childNum);
-         //relocate
+            //relocate
         }
     }
     
@@ -155,24 +134,26 @@ public class ArrayHeap<T extends Comparable<T>> implements IPriorityQueue<T> {
         // first check
         // base: not all kids are there
         // aka the kids arent all right
-        if(size <= ArrayHeap.NUM_CHILDREN + 1) {
-            for(int i1 = 0; i1 < size; i1++) {
-                if(heap[0].compareTo(heap[i1]) > 0) {
+        if (size <= ArrayHeap.NUM_CHILDREN + 1) {
+            for (int i1 = 0; i1 < size; i1++) {
+                if (heap[0].compareTo(heap[i1]) > 0) {
                     T top = heap[0];
                     heap[0] = heap[i1];
                     heap[i1] = top;        
                 }
             }
-        }else {
+        } else {
        
             if (this.hasMaxKids(i)) {
-            // #hail4Kids
+                // #hail4Kids
             
                 // case where we do shit
-                if ((item.compareTo(this.heap[ArrayHeap.NUM_CHILDREN * i + 1]) > 0 || item.compareTo(this.heap[ArrayHeap.NUM_CHILDREN * i + 2]) > 0) ||
-                      (item.compareTo(this.heap[ArrayHeap.NUM_CHILDREN * i + 3]) > 0 || item.compareTo(this.heap[ArrayHeap.NUM_CHILDREN * i + 4]) > 0)){
+                if ((item.compareTo(this.heap[ArrayHeap.NUM_CHILDREN * i + 1])
+                        > 0 || item.compareTo(this.heap[ArrayHeap.NUM_CHILDREN * i + 2]) > 0)
+                        ||(item.compareTo(this.heap[ArrayHeap.NUM_CHILDREN * i + 3]) > 0
+                                || item.compareTo(this.heap[ArrayHeap.NUM_CHILDREN * i + 4]) > 0)){
                       // pick smallest child
-                      // penetrate them... wait, no, um.. i mean-- percolate them
+                      // infiltrate them... wait, no, um.. i mean-- percolate them
                       T smallest = this.heap[ArrayHeap.NUM_CHILDREN * i + 1];
                       int smallIndex = ArrayHeap.NUM_CHILDREN * i + 1;
                   
