@@ -156,7 +156,7 @@ public class ArrayHeap<T extends Comparable<T>> implements IPriorityQueue<T> {
                     }
                 }
                 
-                if(smallIndex != -1) {
+                if(smallIndex != i) {
                   this.heap[i] = heap[smallIndex];
                   this.heap[smallIndex] = item;
                   percolate(item, smallIndex);
@@ -196,15 +196,15 @@ public class ArrayHeap<T extends Comparable<T>> implements IPriorityQueue<T> {
                     // need to do another last percolation
 
                     
-                    int smallIndex = -1;
+                    int smallIndex = i;
                     for(int j = 1; j <= 3; j++) {
                          
-                        if(heap[ArrayHeap.NUM_CHILDREN * i + j] != null && item.compareTo(this.heap[ArrayHeap.NUM_CHILDREN * i + j]) > 0) {
+                        if(size() < ArrayHeap.NUM_CHILDREN && heap[ArrayHeap.NUM_CHILDREN * i + j] != null && heap[smallIndex].compareTo(this.heap[ArrayHeap.NUM_CHILDREN * i + j]) > 0) {
                             smallIndex = ArrayHeap.NUM_CHILDREN * i + j;
                         }
                     }
                     
-                    if(smallIndex != -1) {
+                    if(smallIndex != i) {
                       this.heap[i] = heap[smallIndex];
                       this.heap[smallIndex] = item;
                     }      
