@@ -149,9 +149,9 @@ public class ArrayHeap<T extends Comparable<T>> implements IPriorityQueue<T> {
             
                 // case where we do shit
                 
-                int smallIndex = -1;
+                int smallIndex = i;
                 for(int j = 1; j <= 4; j++) {
-                    if(item.compareTo(this.heap[ArrayHeap.NUM_CHILDREN * i + j]) > 0) {
+                    if(heap[smallIndex].compareTo(this.heap[ArrayHeap.NUM_CHILDREN * i + j]) > 0) {
                         smallIndex = ArrayHeap.NUM_CHILDREN * i + j;
                     }
                 }
