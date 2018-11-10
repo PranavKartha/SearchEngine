@@ -59,7 +59,7 @@ public class TestTopKSortFunctionality extends BaseTest {
         list.add(null);
         try {
             topK = Searcher.topKSort(3, list);
-            fail("Excepted IllegalArgumentException");
+            fail("Expected IllegalArgumentException");
         } catch (IllegalArgumentException e) {
             // yaay
         }
