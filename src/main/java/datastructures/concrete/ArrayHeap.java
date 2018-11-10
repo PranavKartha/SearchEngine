@@ -78,11 +78,7 @@ public class ArrayHeap<T extends Comparable<T>> implements IPriorityQueue<T> {
         
         
         // insertion
-        if (this.isEmpty()) {
-            this.heap[0] = item;
-        } else {
-            insertHelper(item, 0);
-        }
+        insertHelper(item, 0);
         
         //traverse to correct place, relocate shit as needed
         // put that boi down
