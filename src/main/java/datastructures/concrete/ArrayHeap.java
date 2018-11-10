@@ -74,49 +74,48 @@ public class ArrayHeap<T extends Comparable<T>> implements IPriorityQueue<T> {
         
         // reorganizing happens here
         // increment count
-        this.count++;
         
         
         // insertion
-        if (this.isEmpty()) {
-            this.heap[0] = item;
-        } else {
-            insertHelper(item, 0);
-        }
-        
+        insertHelper(item);
+        this.count++;
+
         //traverse to correct place, relocate shit as needed
         // put that boi down
     }
     
-    private void insertHelper(T item, int i) {
+    private void insertHelper(T item) {
         if (heap[0] == null) {
             heap[0] = item;
         } else {
-            if ((ArrayHeap.NUM_CHILDREN * i) + 4 > this.heap.length) {
+            if (count >= this.heap.length) {
                 this.recount();
             }
-            if (this.heap[(ArrayHeap.NUM_CHILDREN * i) + 1] == null) {
-                childCheck(item, i, 1);
-            } else if (this.heap[(ArrayHeap.NUM_CHILDREN * i) + 2] == null) {
-                childCheck(item, i, 2);
-            } else if (this.heap[(ArrayHeap.NUM_CHILDREN * i) + 3] == null) {
-                childCheck(item, i, 3);
-            } else if (this.heap[(ArrayHeap.NUM_CHILDREN * i) + 4] == null) {
-                childCheck(item, i, 4);
-            } else {
-                this.insertHelper(item, i + 1);
-            }
+            heap[count] = item;
+            relocate(item,count);
+            
+//            if (this.heap[(ArrayHeap.NUM_CHILDREN * i) + 1] == null) {
+//                childCheck(item, i, 1);
+//            } else if (this.heap[(ArrayHeap.NUM_CHILDREN * i) + 2] == null) {
+//                childCheck(item, i, 2);
+//            } else if (this.heap[(ArrayHeap.NUM_CHILDREN * i) + 3] == null) {
+//                childCheck(item, i, 3);
+//            } else if (this.heap[(ArrayHeap.NUM_CHILDREN * i) + 4] == null) {
+//                childCheck(item, i, 4);
+//            } else {
+//                this.insertHelper(item, i + 1);
+//            }
         }    
     }
     
-    public void childCheck(T item, int i, int childNum) {
-        if (item.compareTo(this.heap[i]) > 0) {
-            this.heap[(ArrayHeap.NUM_CHILDREN * i) + childNum] = item;
-        } else {
-            relocate(item, (ArrayHeap.NUM_CHILDREN * i) + childNum);
-            //relocate
-        }
-    }
+//    public void childCheck(T item, int i, int childNum) {
+//        if (item.compareTo(this.heap[i]) > 0) {
+//            this.heap[heap.length] = item;
+//        } else {
+//            relocate(item, (ArrayHeap.NUM_CHILDREN * i) + childNum);
+//            //relocate
+//        }
+//    }
     
     
     private void relocate(T item, int i) {
