@@ -25,6 +25,14 @@ StyleCheck:
   tags:
     - stylecheck
 
+DataStructures:
+  stage: test
+  script:
+    - wget -q https://courses.cs.washington.edu/courses/cse373/18au/files/hw_scripts/hw5-datastructures.sh
+    - sh hw5-datastructures.sh
+  tags:
+    - datastructures
+
 
 Part1:
   stage: test
