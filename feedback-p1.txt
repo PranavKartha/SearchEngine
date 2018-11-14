@@ -1,0 +1,113 @@
+# Feedback
+
+Group adams: karthp, nraman56
+
+Commit hash: c0a564ae7c40ac711aca2e630a3d92cb45efbbb1
+
+Final score: 55 / 60
+
+## Style check
+
+Score: 5 / 5
+
+## ArrayHeap
+
+Score: 12 / 15
+
+-   PASS: testRemoveMinEmptyQueue
+-   PASS: testSimpleUsage
+-   PASS: testAttemptNullEntries
+-   PASS: testPeekMin
+-   FAIL: testInternalStructure
+
+        java.lang.AssertionError
+        	at org.junit.Assert.fail(Assert.java:86)
+        	at org.junit.Assert.assertTrue(Assert.java:41)
+        	at org.junit.Assert.assertTrue(Assert.java:52)
+        	at privatetests.TestPrivateArrayHeap.testInternalStructure(TestPrivateArrayHeap.java:251)
+        	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+        	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+        	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+        	at java.lang.reflect.Method.invoke(Method.java:498)
+        	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:50)
+        	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
+        	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:47)
+        	at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)
+        	at org.junit.internal.runners.statements.FailOnTimeout$CallableStatement.call(FailOnTimeout.java:298)
+        	at org.junit.internal.runners.statements.FailOnTimeout$CallableStatement.call(FailOnTimeout.java:292)
+        	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+        	at java.lang.Thread.run(Thread.java:745)
+
+-   PASS: testStringEntries
+-   PASS: testPeekEmptyQueue
+-   PASS: testInsertingDuplicates
+-   FAIL: testNoisyUsage
+
+        java.lang.AssertionError
+        	at org.junit.Assert.fail(Assert.java:86)
+        	at org.junit.Assert.assertTrue(Assert.java:41)
+        	at org.junit.Assert.assertTrue(Assert.java:52)
+        	at privatetests.TestPrivateArrayHeap.testNoisyUsage(TestPrivateArrayHeap.java:209)
+        	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+        	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+        	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+        	at java.lang.reflect.Method.invoke(Method.java:498)
+        	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:50)
+        	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
+        	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:47)
+        	at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)
+        	at org.junit.internal.runners.statements.FailOnTimeout$CallableStatement.call(FailOnTimeout.java:298)
+        	at org.junit.internal.runners.statements.FailOnTimeout$CallableStatement.call(FailOnTimeout.java:292)
+        	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+        	at java.lang.Thread.run(Thread.java:745)
+
+-   PASS: testInsertingManyElements
+
+## Searcher
+
+Score: 15 / 15
+
+-   PASS: testKEqualsN
+-   PASS: testWhenKIsBiggerThanN
+-   PASS: testNonIntegerEntries
+-   PASS: testKIs1
+-   PASS: testNIs1
+-   PASS: testInputListNotMutated
+-   PASS: testWhenKIsSameAsN
+-   PASS: testWhenKIsNegative
+-   PASS: testWhenKIsSmallerThanN
+-   PASS: testIsNLogK
+-   PASS: testWhenKIsZero
+
+## TestArrayHeapFunctionality
+
+Score: 10 / 10
+
+-   PASS: AllOk
+-   PASS: NoResize
+-   PASS: NoExceptionInPeek
+-   PASS: NoExceptionInRemovemin
+-   PASS: NoExceptionInInsert
+-   PASS: InsertDoesNotUpdateSize
+-   PASS: RemoveminDoesNotUpdateSize
+-   PASS: AssumesAllParentsHaveFourChildren
+
+## TestSortingStress
+
+Score: 5 / 5
+
+-   PASS: AllOk
+-   PASS: DeliberatelyInefficient
+
+## TestTopKSortFunctionality
+
+Score: 8 / 10
+
+-   PASS: AllOk
+-   PASS: DoesNotThrowException
+-   FAIL: DoesNotHandleKZeroCase
+
+        Unable to find bug with Searcher with does not handle k zero case
+
+-   PASS: AssumesKAlwaysLessThanN
+-   PASS: OffByOneErrorInLoop
