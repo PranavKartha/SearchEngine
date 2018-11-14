@@ -35,8 +35,17 @@ public class TfIdfAnalyzer {
         // You should uncomment these lines when you're ready to begin working
         // on this class.
 
-        //this.idfScores = this.computeIdfScores(webpages);
-        //this.documentTfIdfVectors = this.computeAllDocumentTfIdfVectors(webpages);
+        this.idfScores = this.computeIdfScores(webpages);
+        this.documentTfIdfVectors = this.computeAllDocumentTfIdfVectors(webpages);
+        
+        // here's the plan Raggy
+        // 1. we gotta do shit in computeIdfScores
+        //  gotta loop through the pages in the set
+        //  get the contents using the Webpage class methods as well as the URI
+        //  while calculating for idfScores, store Tf vals in URI key for page Meta-in String key for word,
+        //      then after ALL Tf-calcs are done, each word in URI key by respective idf Score.
+        // 
+        //  tis an incomplete plan, Ragu
     }
 
     // Note: this method, strictly speaking, doesn't need to exist. However,
