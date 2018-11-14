@@ -27,7 +27,7 @@ public class TestArrayHeapFunctionality extends BaseTest {
     }
     
     
-    @Test()
+    @Test(timeout=SECOND)
     public void testInsertBasic() {
         IPriorityQueue<Integer> heap = this.makeInstance();
         for (int i = 0; i < 20; i++) {
@@ -124,7 +124,7 @@ public class TestArrayHeapFunctionality extends BaseTest {
         }      
     }
     
-    @Test()
+    @Test(timeout = SECOND)
     public void testRemoveMin() {
         IPriorityQueue<Integer> heap = this.makeInstance();
         for (int i = 0; i < 20; i++) {
