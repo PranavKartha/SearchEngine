@@ -39,15 +39,6 @@ public class TfIdfAnalyzer {
 
         this.idfScores = this.computeIdfScores(webpages);
         this.documentTfIdfVectors = this.computeAllDocumentTfIdfVectors(webpages);
-        
-        // here's the plan Raggy
-        // 1. we gotta do shit in computeIdfScores
-        //  gotta loop through the pages in the set
-        //  get the contents using the Webpage class methods as well as the URI
-        //  while calculating for idfScores, store Tf vals in URI key for page Meta-in String key for word,
-        //      then after ALL Tf-calcs are done, each word in URI key by respective idf Score.
-        // 
-        //  tis an incomplete plan, Ragu
     }
 
     // Note: this method, strictly speaking, doesn't need to exist. However,
@@ -68,15 +59,37 @@ public class TfIdfAnalyzer {
      * in every single document to their IDF score.
      */
     private IDictionary<String, Double> computeIdfScores(ISet<Webpage> pages) {
+        // add all strings that aren't already in IDictionary to the field;
+        IDictionary<String, Double> idfScores = new ChainedHashDictionary<>();
+        double totalNumDocs = pages.size() * 1.0;
+        
+        // nested loops subject to change
         for (Webpage p: pages) {
-            // these only hold Tf scores right now
-            IDictionary<String, Double> scores = this.computeTfScores(p.getWords());
+            for (String word: p.getWords()) {
+                if (!idfScores.containsKey(word)) {
+                    idfScores.put(word, 0.0);
+                }
+            }
         }
-        // calculate Idf score and multiply existing Tf score by that
+        // now calculate idf scores
+        for (KVPair<String, Double> pair: idfScores) {
+            int count = 0;
+            String word = pair.getKey();
+            for (Webpage w: pages) {
+                if (w.getWords().contains(word)) {
+                    count++;
+                }
+            }
+            
+            if (count != 0) {
+                double newCount = 1.0 * count;
+                double inside = totalNumDocs / newCount;
+                double score = Math.log(inside);
+                idfScores.put(word, score);
+            }
+        }
         
-        
-        // theeeeenn we done, return that bitch
-        throw new NotYetImplementedException();
+        return idfScores;
     }
 
     /**
@@ -86,29 +99,31 @@ public class TfIdfAnalyzer {
      * The input list represents the words contained within a single document.
      */
     private IDictionary<String, Double> computeTfScores(IList<String> words) {
-        // this gets called in computeIdfScores btw
-        // these words are all within a single WebPage
-        IDictionary<String, Double> pageScores = new ChainedHashDictionary<String, Double>();
-        double wordCount = 1.0 * words.size();
+//        // this gets called in computeIdfScores btw
+//        // these words are all within a single WebPage
+//        IDictionary<String, Double> pageScores = new ChainedHashDictionary<String, Double>();
+//        double wordCount = 1.0 * words.size();
+//        
+//        for (String word: words) {
+//            if (!pageScores.containsKey(word)) {
+//                pageScores.put(word, 1.0);
+//            } else {
+//                double thisCount = pageScores.get(word);
+//                thisCount++;
+//                pageScores.put(word, thisCount);
+//            }
+//        }
+//        
+//        for (KVPair<String, Double> p: pageScores) {
+//            String key = p.getKey();
+//            Double value = p.getValue();
+//            Double Tf = value / wordCount;
+//            pageScores.put(key, Tf);
+//        }
+//        
+//        return pageScores;
         
-        for (String word: words) {
-            if (!pageScores.containsKey(word)) {
-                pageScores.put(word, 1.0);
-            } else {
-                double thisCount = pageScores.get(word);
-                thisCount++;
-                pageScores.put(word, thisCount);
-            }
-        }
-        
-        for (KVPair<String, Double> p: pageScores) {
-            String key = p.getKey();
-            Double value = p.getValue();
-            Double Tf = value / wordCount;
-            pageScores.put(key, Tf);
-        }
-        
-        return pageScores;
+        throw new NotYetImplementedException();
     }
 
     /**
@@ -117,6 +132,16 @@ public class TfIdfAnalyzer {
     private IDictionary<URI, IDictionary<String, Double>> computeAllDocumentTfIdfVectors(ISet<Webpage> pages) {
         // Hint: this method should use the idfScores field and
         // call the computeTfScores(...) method.
+        
+        // IDF calculations first
+//        for (Webpage p: pages) {
+//            // these only hold Tf scores right now
+//            IDictionary<String, Double> scores = this.computeTfScores(p.getWords());
+//        }
+//        // calculate Idf score and multiply existing Tf score by that
+//        
+//        
+//        // theeeeenn we done, return that bitch
         throw new NotYetImplementedException();
     }
 
