@@ -59,7 +59,7 @@ public class TfIdfAnalyzer {
      * in every single document to their IDF score.
      */
     private IDictionary<String, Double> computeIdfScores(ISet<Webpage> pages) {
-        // add all strings that aren't already in IDictionary to the field;
+        // add all strings that aren't already in IDictionary to the field
         IDictionary<String, Double> idfScores = new ChainedHashDictionary<>();
         double totalNumDocs = pages.size() * 1.0;
         
