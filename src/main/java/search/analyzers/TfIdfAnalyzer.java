@@ -1,5 +1,7 @@
 package search.analyzers;
 
+import datastructures.concrete.KVPair;
+import datastructures.concrete.dictionaries.ChainedHashDictionary;
 import datastructures.interfaces.IDictionary;
 import datastructures.interfaces.IList;
 import datastructures.interfaces.ISet;
@@ -66,6 +68,14 @@ public class TfIdfAnalyzer {
      * in every single document to their IDF score.
      */
     private IDictionary<String, Double> computeIdfScores(ISet<Webpage> pages) {
+        for (Webpage p: pages) {
+            // these only hold Tf scores right now
+            IDictionary<String, Double> scores = this.computeTfScores(p.getWords());
+        }
+        // calculate Idf score and multiply existing Tf score by that
+        
+        
+        // theeeeenn we done, return that bitch
         throw new NotYetImplementedException();
     }
 
@@ -76,7 +86,29 @@ public class TfIdfAnalyzer {
      * The input list represents the words contained within a single document.
      */
     private IDictionary<String, Double> computeTfScores(IList<String> words) {
-        throw new NotYetImplementedException();
+        // this gets called in computeIdfScores btw
+        // these words are all within a single WebPage
+        IDictionary<String, Double> pageScores = new ChainedHashDictionary<String, Double>();
+        double wordCount = 1.0 * words.size();
+        
+        for (String word: words) {
+            if (!pageScores.containsKey(word)) {
+                pageScores.put(word, 1.0);
+            } else {
+                double thisCount = pageScores.get(word);
+                thisCount++;
+                pageScores.put(word, thisCount);
+            }
+        }
+        
+        for (KVPair<String, Double> p: pageScores) {
+            String key = p.getKey();
+            Double value = p.getValue();
+            Double Tf = value / wordCount;
+            pageScores.put(key, Tf);
+        }
+        
+        return pageScores;
     }
 
     /**
