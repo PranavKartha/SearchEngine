@@ -60,19 +60,19 @@ public class TfIdfAnalyzer {
      */
     private IDictionary<String, Double> computeIdfScores(ISet<Webpage> pages) {
         // add all strings that aren't already in IDictionary to the field
-        IDictionary<String, Double> idfScores = new ChainedHashDictionary<>();
+        IDictionary<String, Double> idf = new ChainedHashDictionary<>();
         double totalNumDocs = pages.size() * 1.0;
         
         // nested loops subject to change
         for (Webpage p: pages) {
             for (String word: p.getWords()) {
-                if (!idfScores.containsKey(word)) {
-                    idfScores.put(word, 0.0);
+                if (!idf.containsKey(word)) {
+                    idf.put(word, 0.0);
                 }
             }
         }
         // now calculate idf scores
-        for (KVPair<String, Double> pair: idfScores) {
+        for (KVPair<String, Double> pair: idf) {
             int count = 0;
             String word = pair.getKey();
             for (Webpage w: pages) {
@@ -85,11 +85,11 @@ public class TfIdfAnalyzer {
                 double newCount = 1.0 * count;
                 double inside = totalNumDocs / newCount;
                 double score = Math.log(inside);
-                idfScores.put(word, score);
+                idf.put(word, score);
             }
         }
         
-        return idfScores;
+        return idf;
     }
 
     /**
@@ -134,14 +134,7 @@ public class TfIdfAnalyzer {
         // call the computeTfScores(...) method.
         
         // IDF calculations first
-//        for (Webpage p: pages) {
-//            // these only hold Tf scores right now
-//            IDictionary<String, Double> scores = this.computeTfScores(p.getWords());
-//        }
-//        // calculate Idf score and multiply existing Tf score by that
-//        
-//        
-//        // theeeeenn we done, return that bitch
+        
         throw new NotYetImplementedException();
     }
 
