@@ -139,7 +139,7 @@ public class TfIdfAnalyzer {
         // setup return
         IDictionary<URI, IDictionary<String, Double>> mixScores = new ChainedHashDictionary<>();
         
-        // for each page
+        // for each Webpage
         for (Webpage page: pages) {
             // store URI
             URI key = page.getUri();
@@ -147,7 +147,7 @@ public class TfIdfAnalyzer {
             // get tf scores, and this will eventually have total scores
             IDictionary<String, Double> scores = this.computeTfScores(page.getWords());
             
-            // make and fill a set of words that are relevant to this Webpage
+            // make and fill an ISet with words that are relevant to this Webpage
             ISet<String> scoreWords = new ChainedHashSet<>();
             for (KVPair<String, Double> p: scores) {
                 scoreWords.add(p.getKey());
