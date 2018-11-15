@@ -1,5 +1,6 @@
 package search.analyzers;
 
+import datastructures.concrete.ChainedHashSet;
 import datastructures.concrete.KVPair;
 import datastructures.concrete.dictionaries.ChainedHashDictionary;
 import datastructures.interfaces.IDictionary;
@@ -61,19 +62,20 @@ public class TfIdfAnalyzer {
         // add all strings that aren't already in IDictionary to the field
         IDictionary<String, Double> idf = new ChainedHashDictionary<>();
         double totalNumDocs = pages.size() * 1.0;
+        ISet<String> allWords = new ChainedHashSet<>();
         
         // nested loops subject to change
         for (Webpage p: pages) {
             for (String word: p.getWords()) {
                 if (!idf.containsKey(word)) {
                     idf.put(word, 0.0);
+                    allWords.add(word);
                 }
             }
         }
         // now calculate idf scores
-        for (KVPair<String, Double> pair: idf) {
+        for (String word: allWords) {
             int count = 0;
-            String word = pair.getKey();
             for (Webpage w: pages) {
                 if (w.getWords().contains(word)) {
                     count++;
@@ -102,6 +104,7 @@ public class TfIdfAnalyzer {
         // these words are all within a single WebPage
         IDictionary<String, Double> pageScores = new ChainedHashDictionary<String, Double>();
         double wordCount = 1.0 * words.size();
+        ISet<String> allWords = new ChainedHashSet<>();
         
         for (String word: words) {
             if (!pageScores.containsKey(word)) {
@@ -113,9 +116,8 @@ public class TfIdfAnalyzer {
             }
         }
         
-        for (KVPair<String, Double> p: pageScores) {
-            String key = p.getKey();
-            Double value = p.getValue();
+        for (String key: allWords) {
+            Double value = pageScores.get(key);
             Double Tf = value / wordCount;
             pageScores.put(key, Tf);
         }
