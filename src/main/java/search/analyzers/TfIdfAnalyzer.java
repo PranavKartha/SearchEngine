@@ -145,10 +145,13 @@ public class TfIdfAnalyzer {
             
             // get tf scores, and this will eventually have total scores
             IDictionary<String, Double> scores = this.computeTfScores(page.getWords());
+            ISet<String> scoreWords = new ChainedHashSet<>();
             for (KVPair<String, Double> p: scores) {
-                String word = p.getKey();
+                scoreWords.add(p.getKey());
+            }
+            for (String word: scoreWords) {
                 double idf = this.idfScores.get(word);
-                double tf = p.getValue();
+                double tf = scores.get(word);
                 double newScore = tf * idf;
                 scores.put(word, newScore);
             }
