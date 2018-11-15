@@ -73,7 +73,7 @@ public class TfIdfAnalyzer {
                 }
             }
         }
-        // now calculate idf scores
+        // now calculate idf scores 
         for (String word: allWords) {
             int count = 0;
             for (Webpage w: pages) {
