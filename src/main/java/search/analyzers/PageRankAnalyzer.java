@@ -1,6 +1,7 @@
 package search.analyzers;
 
 import datastructures.concrete.ChainedHashSet;
+import datastructures.concrete.KVPair;
 import datastructures.concrete.dictionaries.ArrayDictionary;
 import datastructures.concrete.dictionaries.ChainedHashDictionary;
 import datastructures.interfaces.IDictionary;
@@ -40,10 +41,10 @@ public class PageRankAnalyzer {
         // on this class.
 
         // Step 1: Make a graph representing the 'internet'
-        //IDictionary<URI, ISet<URI>> graph = this.makeGraph(webpages);
+        IDictionary<URI, ISet<URI>> graph = this.makeGraph(webpages);
 
         // Step 2: Use this graph to compute the page rank for each webpage
-        //this.pageRanks = this.makePageRanks(graph, decay, limit, epsilon);
+        this.pageRanks = this.makePageRanks(graph, decay, limit, epsilon);
 
         // Note: we don't store the graph as a field: once we've computed the
         // page ranks, we no longer need it!
@@ -105,16 +106,67 @@ public class PageRankAnalyzer {
                                                    int limit,
                                                    double epsilon) {
         // Step 1: The initialize step should go here
-
+        
+        // we make starting ranks
+        double n = graph.size() * 1.0;
+        double startValue = 1 / n;
+        IDictionary<URI, Double> ranks = new ChainedHashDictionary<>();
+        for (KVPair<URI, ISet<URI>> p: graph) {
+            URI key = p.getKey();
+            ranks.put(key, startValue);
+        }
+        
         for (int i = 0; i < limit; i++) {
             // Step 2: The update step should go here
-
+            
+            // set all values to 0.0
+            // store reference to old values in oldRanks
+            IDictionary<URI, Double> oldRanks = new ChainedHashDictionary<>();
+            for (KVPair<URI, ISet<URI>> p: graph) {
+                URI key = p.getKey();
+                oldRanks.put(key, ranks.get(key));
+                ranks.put(key, 0.0);
+            }
+            // recalculate ranks score
+            for (KVPair<URI, ISet<URI>> p: graph) {
+                double numLinks = graph.get(p.getKey()).size() * 1.0;
+                double oldRank = oldRanks.get(p.getKey());
+                if (numLinks != 0.0) {
+                    double quotient = oldRank / numLinks;
+                    double value = decay * quotient;
+                    ranks.put(p.getKey(), value);
+                } else {
+                    for (KVPair<URI, ISet<URI>> pair: graph) {
+                        URI key = pair.getKey();
+                        double quotient = oldRank / n;
+                        double value = decay * quotient;
+                        ranks.put(key, value);
+                    }
+                }
+            }
+            for (KVPair<URI, ISet<URI>> p: graph) {
+                URI key = p.getKey();
+                double value = ranks.get(key);
+                double top = 1.0 - decay;
+                double quotient = top / n;
+                value += quotient;
+                ranks.put(key, value);
+            }
+            
+            
             // Step 3: the convergence step should go here.
             // Return early if we've converged.
-            
-            throw new NotYetImplementedException();
+            for (KVPair<URI, Double> p: ranks) {
+                URI key = p.getKey();
+                Double bic = oldRanks.get(key);
+                Double boi = ranks.get(key);
+                if (boi - bic > epsilon) {
+                    ranks = this.makePageRanks(graph, decay, limit, epsilon);
+                }
+            }
+            return ranks;
         }
-        throw new NotYetImplementedException();
+        return ranks;
     }
 
     /**
@@ -125,6 +177,6 @@ public class PageRankAnalyzer {
      */
     public double computePageRank(URI pageUri) {
         // Implementation note: this method should be very simple: just one line!
-        return 1.0;
+        return this.pageRanks.get(pageUri);
     }
 }

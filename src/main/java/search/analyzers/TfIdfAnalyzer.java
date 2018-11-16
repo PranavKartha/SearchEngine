@@ -120,8 +120,8 @@ public class TfIdfAnalyzer {
         
         for (String key: allWords) {
             Double value = pageScores.get(key);
-            Double Tf = value / wordCount;
-            pageScores.put(key, Tf);
+            Double tf = value / wordCount;
+            pageScores.put(key, tf);
         }
         
         return pageScores;
@@ -132,8 +132,8 @@ public class TfIdfAnalyzer {
         
         for (Webpage page: pages) {
             URI key = page.getUri();
-            IDictionary<String, Double> tfScores = this.computeTfScores(page.getWords());
-            result.put(key, tfScores);
+            IDictionary<String, Double> tf = this.computeTfScores(page.getWords());
+            result.put(key, tf);
         }
         
         return result;
@@ -191,8 +191,6 @@ public class TfIdfAnalyzer {
      *               webpages given to the constructor.
      */
     public Double computeRelevance(IList<String> query, URI pageUri) { 
-        IDictionary<String, Double> docVector = documentTfIdfVectors.get(pageUri);
-        
         // Note: The pseudocode we gave you is not very efficient. When implementing,
         // this method, you should:
         //
@@ -214,8 +212,11 @@ public class TfIdfAnalyzer {
         }
         // now the idf scores
         // if not in the idf dictionary, then the value becomes 0
+        
         double denominator;
         double numerator = 0.0;
+        // these doubles are for the return
+        
         for (String word: queryWords) {
             double tf = queryVector.get(word);
             // if we have the idf score, GETI-ESKETIIII
@@ -239,22 +240,8 @@ public class TfIdfAnalyzer {
             double top = pageTop * qTop;
             numerator += top;
         }
-        // BOOM we made the tfidf vector for the query
         
-//        //da Top
-//        double numerator = 0.0;
-//        for (String word: queryWords) {
-//            double pageScore;
-//            if (relevantPage.containsKey(word)) {
-//                pageScore = relevantPage.get(word);
-//            } else {
-//                pageScore = 0.0;
-//            }
-//            double wordScore = queryVector.get(word);
-//            double thisTop = wordScore * pageScore;
-//            numerator += thisTop;
-//        }
-        // da Bottom
+        // now to finish the return
         double doc = this.norms.get(pageUri);
         double q = this.norm(queryVector);
         denominator = doc * q;
@@ -279,7 +266,7 @@ public class TfIdfAnalyzer {
     
     private IDictionary<URI, Double> getNorms(){
         IDictionary<URI, Double> theNorms = new ChainedHashDictionary<>();
-        for (KVPair<URI, IDictionary<String,Double>> p: this.documentTfIdfVectors) {
+        for (KVPair<URI, IDictionary<String, Double>> p: this.documentTfIdfVectors) {
             URI key = p.getKey();
             IDictionary<String, Double> vector = p.getValue();
             double value = this.norm(vector);
