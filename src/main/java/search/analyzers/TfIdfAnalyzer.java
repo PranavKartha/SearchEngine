@@ -10,6 +10,8 @@ import search.models.Webpage;
 
 import java.net.URI;
 
+import java.util.Iterator;
+
 /**
  * This class is responsible for computing how "relevant" any given document is
  * to a given search query.
@@ -28,6 +30,8 @@ public class TfIdfAnalyzer {
     private IDictionary<URI, IDictionary<String, Double>> documentTfIdfVectors;
 
     // Feel free to add extra fields and helper methods.
+    private IDictionary<URI, Double> norms;
+    private IDictionary<URI, IDictionary<String, Double>> tfScores;
 
     public TfIdfAnalyzer(ISet<Webpage> webpages) {
         // Implementation note: We have commented these method calls out so your
@@ -38,7 +42,9 @@ public class TfIdfAnalyzer {
         // on this class.
 
         this.idfScores = this.computeIdfScores(webpages);
+        this.tfScores = this.getAllTfScores(webpages);
         this.documentTfIdfVectors = this.computeAllDocumentTfIdfVectors(webpages);
+        this.norms = this.getNorms();
     }
 
     // Note: this method, strictly speaking, doesn't need to exist. However,
@@ -62,32 +68,27 @@ public class TfIdfAnalyzer {
         // add all strings that aren't already in IDictionary to the field
         IDictionary<String, Double> idf = new ChainedHashDictionary<>();
         double totalNumDocs = pages.size() * 1.0;
-        ISet<String> allWords = new ChainedHashSet<>();
         
-        // nested loops subject to change
         for (Webpage p: pages) {
-            for (String word: p.getWords()) {
-                if (!idf.containsKey(word)) {
-                    idf.put(word, 0.0);
-                    allWords.add(word);
-                }
+            ISet<String> words = new ChainedHashSet<>();
+            IList<String> pageWords = p.getWords();
+            for (String word: pageWords) {
+                words.add(word);
+            }
+            for (String word: words) {
+                idf.put(word, idf.getOrDefault(word, 0.0) + 1);
             }
         }
+        
+        
         // now calculate idf scores 
-        for (String word: allWords) {
-            int count = 0;
-            for (Webpage w: pages) {
-                if (w.getWords().contains(word)) {
-                    count++;
-                }
-            }
-            
-            if (count != 0) {
-                double newCount = 1.0 * count;
-                double inside = totalNumDocs / newCount;
-                double score = Math.log(inside);
-                idf.put(word, score);
-            }
+        Iterator<KVPair<String, Double>> iter = idf.iterator();
+        while (iter.hasNext()) {
+            KVPair<String, Double> p = iter.next();
+            double thing = p.getValue();
+            double inside = totalNumDocs / thing;
+            double score = Math.log(inside);
+            idf.put(p.getKey(), score);
         }
         
         return idf;
@@ -125,6 +126,18 @@ public class TfIdfAnalyzer {
         
         return pageScores;
     }
+    
+    private IDictionary<URI, IDictionary<String, Double>> getAllTfScores(ISet<Webpage> pages){
+        IDictionary<URI, IDictionary<String, Double>> result = new ChainedHashDictionary<>();
+        
+        for (Webpage page: pages) {
+            URI key = page.getUri();
+            IDictionary<String, Double> tfScores = this.computeTfScores(page.getWords());
+            result.put(key, tfScores);
+        }
+        
+        return result;
+    }
 
     /**
      * See spec for more details on what this method should do.
@@ -145,7 +158,7 @@ public class TfIdfAnalyzer {
             URI key = page.getUri();
             
             // get tf scores, and this will eventually have total scores
-            IDictionary<String, Double> scores = this.computeTfScores(page.getWords());
+            IDictionary<String, Double> scores = this.tfScores.get(key);
             
             // make and fill an ISet with words that are relevant to this Webpage
             ISet<String> scoreWords = new ChainedHashSet<>();
@@ -185,6 +198,91 @@ public class TfIdfAnalyzer {
         //    Add a third field containing that information.
         //
         // 2. See if you can combine or merge one or more loops.
-        return 0.0;
+        
+        // tfidf vector for inputted page
+        IDictionary<String, Double> relevantPage = this.documentTfIdfVectors.get(pageUri);
+        
+        // now for the query
+        // first, get the tf scores
+        IDictionary<String, Double> queryVector = this.computeTfScores(query);
+        // make a set of all words in queryVector
+        ISet<String> queryWords = new ChainedHashSet<>();
+        for (KVPair<String, Double> p: queryVector) {
+            queryWords.add(p.getKey());
+        }
+        // now the idf scores
+        // if not in the idf dictionary, then the value becomes 0
+        double denominator;
+        double numerator = 0.0;
+        for (String word: queryWords) {
+            double tf = queryVector.get(word);
+            // if we have the idf score, GETI-ESKETIIII
+            // otherwise set it to 0
+            double idf;
+            if (this.idfScores.containsKey(word)) {
+                idf = idfScores.get(word);
+            } else {
+                idf = 0.0;
+            }
+            double score = tf * idf;
+            queryVector.put(word, score);
+            
+            double qTop = score;
+            double pageTop;
+            if (relevantPage.containsKey(word)) {
+                pageTop = relevantPage.get(word);
+            } else {
+                pageTop = 0.0;
+            }
+            double top = pageTop * qTop;
+            numerator += top;
+        }
+        // BOOM we made the tfidf vector for the query
+        
+//        //da Top
+//        double numerator = 0.0;
+//        for (String word: queryWords) {
+//            double pageScore;
+//            if (relevantPage.containsKey(word)) {
+//                pageScore = relevantPage.get(word);
+//            } else {
+//                pageScore = 0.0;
+//            }
+//            double wordScore = queryVector.get(word);
+//            double thisTop = wordScore * pageScore;
+//            numerator += thisTop;
+//        }
+        // da Bottom
+        double doc = this.norms.get(pageUri);
+        double q = this.norm(queryVector);
+        denominator = doc * q;
+        if (denominator == 0.0) {
+            return 0.0;
+        } else {
+            return numerator / denominator;
+        }
+    }
+    
+    private double norm(IDictionary<String, Double> vector) {
+        double sum = 0.0;
+        for (KVPair<String, Double> p: vector) {
+            String key = p.getKey();
+            double add = vector.get(key);
+            add *= add;
+            sum += add;
+        }
+        sum = Math.sqrt(sum);
+        return sum;
+    }
+    
+    private IDictionary<URI, Double> getNorms(){
+        IDictionary<URI, Double> theNorms = new ChainedHashDictionary<>();
+        for (KVPair<URI, IDictionary<String,Double>> p: this.documentTfIdfVectors) {
+            URI key = p.getKey();
+            IDictionary<String, Double> vector = p.getValue();
+            double value = this.norm(vector);
+            theNorms.put(key, value);
+        }
+        return theNorms;
     }
 }
