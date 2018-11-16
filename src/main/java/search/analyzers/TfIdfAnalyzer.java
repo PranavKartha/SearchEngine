@@ -10,6 +10,7 @@ import search.models.Webpage;
 
 import java.net.URI;
 
+///
 /**
  * This class is responsible for computing how "relevant" any given document is
  * to a given search query.
@@ -62,6 +63,7 @@ public class TfIdfAnalyzer {
         // add all strings that aren't already in IDictionary to the field
         IDictionary<String, Double> idf = new ChainedHashDictionary<>();
         double totalNumDocs = pages.size() * 1.0;
+        
         ISet<String> allWords = new ChainedHashSet<>();
         
         // nested loops subject to change
@@ -73,6 +75,9 @@ public class TfIdfAnalyzer {
                 }
             }
         }
+        // is the chainedHashSet neccesary? 
+        
+        
         // now calculate idf scores 
         for (String word: allWords) {
             int count = 0;
@@ -170,7 +175,9 @@ public class TfIdfAnalyzer {
      * Precondition: the given uri must have been one of the uris within the list of
      *               webpages given to the constructor.
      */
-    public Double computeRelevance(IList<String> query, URI pageUri) {
+    public Double computeRelevance(IList<String> query, URI pageUri) { 
+        IDictionary<String, Double> docVector = documentTfIdfVectors.get(pageUri);
+        
         // Note: The pseudocode we gave you is not very efficient. When implementing,
         // this method, you should:
         //
