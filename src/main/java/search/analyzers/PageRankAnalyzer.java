@@ -65,12 +65,15 @@ public class PageRankAnalyzer {
         // returning this boi
         IDictionary<URI, ISet<URI>> graph = new ChainedHashDictionary<>();
         
+        // build the set with all legal links
         ISet<URI> allLinks = new ChainedHashSet<>();
         for(Webpage page: webpages) {
             IList<URI> links = page.getLinks();
             allLinks.add(page.getUri());
-            for(URI link: links) {
-                allLinks.add(link);
+            if (links.size() > 0) {
+                for(URI link: links) {
+                    allLinks.add(link);
+                }
             }
         }
         
