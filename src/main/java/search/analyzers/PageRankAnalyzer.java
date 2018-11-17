@@ -131,18 +131,30 @@ public class PageRankAnalyzer {
             for (KVPair<URI, ISet<URI>> p: graph) {
                 double numLinks = graph.get(p.getKey()).size() * 1.0;
                 double oldRank = oldRanks.get(p.getKey());
+                double value = 0.0;
                 if (numLinks != 0.0) {
                     double quotient = oldRank / numLinks;
-                    double value = decay * quotient;
-                    ranks.put(p.getKey(), value);
+                    value = decay * quotient;
+//                    ranks.put(p.getKey(), value);
+                    ISet<URI> links = graph.get(p.getKey());
+                    for (URI link: links) {
+                        double changeVal = ranks.get(link);
+                        changeVal += value;
+                        ranks.put(link, changeVal);
+                    }
                 } else {
                     for (KVPair<URI, ISet<URI>> pair: graph) {
                         URI key = pair.getKey();
                         double quotient = oldRank / n;
-                        double value = decay * quotient;
+                        value = decay * quotient;
                         ranks.put(key, value);
                     }
                 }
+//                for (URI link: graph.get(p.getKey())) {
+//                    double changeVal = oldRanks.get(link);
+//                    changeVal += value;
+//                    ranks.put(link, changeVal);
+//                }
             }
             for (KVPair<URI, ISet<URI>> p: graph) {
                 URI key = p.getKey();
@@ -156,13 +168,18 @@ public class PageRankAnalyzer {
             
             // Step 3: the convergence step should go here.
             // Return early if we've converged.
+            boolean recurseNeeded = false;
             for (KVPair<URI, Double> p: ranks) {
                 URI key = p.getKey();
                 Double bic = oldRanks.get(key);
                 Double boi = ranks.get(key);
-                if (boi - bic > epsilon) {
-                    ranks = this.makePageRanks(graph, decay, limit, epsilon);
+                if (boi - bic >= epsilon) {
+                    recurseNeeded = true;
                 }
+            }
+            
+            if (recurseNeeded) {
+                ranks = this.makePageRanks(graph, decay, limit, epsilon);
             }
             return ranks;
         }
