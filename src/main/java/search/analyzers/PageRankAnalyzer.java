@@ -2,12 +2,10 @@ package search.analyzers;
 
 import datastructures.concrete.ChainedHashSet;
 import datastructures.concrete.KVPair;
-import datastructures.concrete.dictionaries.ArrayDictionary;
 import datastructures.concrete.dictionaries.ChainedHashDictionary;
 import datastructures.interfaces.IDictionary;
 import datastructures.interfaces.IList;
 import datastructures.interfaces.ISet;
-import misc.exceptions.NotYetImplementedException;
 import search.models.Webpage;
 
 import java.net.URI;
@@ -23,7 +21,7 @@ public class PageRankAnalyzer {
     /**
      * Computes a graph representing the internet and computes the page rank of all
      * available webpages.
-     *
+     *s
      * @param webpages  A set of all webpages we have parsed.
      * @param decay     Represents the "decay" factor when computing page rank (see spec).
      * @param epsilon   When the difference in page ranks is less then or equal to this number,
@@ -67,21 +65,21 @@ public class PageRankAnalyzer {
         
         // build the set with all legal links
         ISet<URI> allLinks = new ChainedHashSet<>();
-        for(Webpage page: webpages) {
+        for (Webpage page: webpages) {
             IList<URI> links = page.getLinks();
             allLinks.add(page.getUri());
             if (links.size() > 0) {
-                for(URI link: links) {
+                for (URI link: links) {
                     allLinks.add(link);
                 }
             }
         }
         
-        for(Webpage page: webpages) {
-            if(!graph.containsKey(page.getUri())) {
+        for (Webpage page: webpages) {
+            if (!graph.containsKey(page.getUri())) {
                 ISet<URI> links = new ChainedHashSet<>();
-                for(URI link:page.getLinks()){
-                    if(!link.equals(page.getUri()) && allLinks.contains(link)) {
+                for (URI link:page.getLinks()){
+                    if (!link.equals(page.getUri()) && allLinks.contains(link)) {
                         links.add(link);
                     }
                 }
@@ -141,7 +139,6 @@ public class PageRankAnalyzer {
                 if (numLinks != 0.0) {
                     double quotient = oldRank / numLinks;
                     value = decay * quotient;
-//                    ranks.put(p.getKey(), value);
                     ISet<URI> links = graph.get(p.getKey());
                     for (URI link: links) {
                         double changeVal = ranks.get(link);
@@ -158,11 +155,7 @@ public class PageRankAnalyzer {
                         ranks.put(key, changeVal);
                     }
                 }
-//                for (URI link: graph.get(p.getKey())) {
-//                    double changeVal = oldRanks.get(link);
-//                    changeVal += value;
-//                    ranks.put(link, changeVal);
-//                }
+
             }
             for (KVPair<URI, ISet<URI>> p: graph) {
                 URI key = p.getKey();
