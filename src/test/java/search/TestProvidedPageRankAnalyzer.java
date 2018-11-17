@@ -76,7 +76,7 @@ public class TestProvidedPageRankAnalyzer extends BaseTest {
         assertEquals(0.33333, analyzer.computePageRank(pageCUri), DELTA);
     }
 
-    @Test(timeout=SECOND)
+    @Test()
     public void testSpecExample3() {
         URI pageAUri = URI.create("http://example.com/page-a.html");
         URI pageBUri = URI.create("http://example.com/page-b.html");
@@ -90,6 +90,7 @@ public class TestProvidedPageRankAnalyzer extends BaseTest {
         pages.add(this.buildPage(pageCUri, new URI[] {}));
         pages.add(this.buildPage(pageDUri, new URI[] {pageAUri}));
         pages.add(this.buildPage(pageEUri, new URI[] {pageDUri}));
+        
 
         PageRankAnalyzer analyzer = new PageRankAnalyzer(pages, 0.85, 0.00001, 100);
 

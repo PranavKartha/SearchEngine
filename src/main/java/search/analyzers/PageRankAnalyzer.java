@@ -127,6 +127,7 @@ public class PageRankAnalyzer {
             // set all values to 0.0
             // store reference to old values in oldRanks
             IDictionary<URI, Double> oldRanks = new ChainedHashDictionary<>();
+            System.out.println(i);
             for (KVPair<URI, ISet<URI>> p: graph) {
                 URI key = p.getKey();
                 oldRanks.put(key, ranks.get(key));
@@ -150,9 +151,11 @@ public class PageRankAnalyzer {
                 } else {
                     for (KVPair<URI, ISet<URI>> pair: graph) {
                         URI key = pair.getKey();
+                        double changeVal = ranks.get(key);
                         double quotient = oldRank / n;
                         value = decay * quotient;
-                        ranks.put(key, value);
+                        changeVal += value;
+                        ranks.put(key, changeVal);
                     }
                 }
 //                for (URI link: graph.get(p.getKey())) {
