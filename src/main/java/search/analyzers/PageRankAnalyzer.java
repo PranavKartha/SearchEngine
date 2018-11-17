@@ -62,12 +62,14 @@ public class PageRankAnalyzer {
      * entirely "self-contained".
      */
     private IDictionary<URI, ISet<URI>> makeGraph(ISet<Webpage> webpages) {
+        // returning this boi
         IDictionary<URI, ISet<URI>> graph = new ChainedHashDictionary<>();
+        
         ISet<URI> allLinks = new ChainedHashSet<>();
         for(Webpage page: webpages) {
             IList<URI> links = page.getLinks();
             allLinks.add(page.getUri());
-            for(URI link:links) {
+            for(URI link: links) {
                 allLinks.add(link);
             }
         }
@@ -168,20 +170,20 @@ public class PageRankAnalyzer {
             
             // Step 3: the convergence step should go here.
             // Return early if we've converged.
-            boolean recurseNeeded = false;
+            boolean stopLoop = true;
             for (KVPair<URI, Double> p: ranks) {
                 URI key = p.getKey();
                 Double bic = oldRanks.get(key);
                 Double boi = ranks.get(key);
-                if (boi - bic >= epsilon) {
-                    recurseNeeded = true;
+                if (Math.abs(boi - bic) >= epsilon) {
+                    oldRanks = ranks;
+                    stopLoop = false;
                 }
             }
             
-            if (recurseNeeded) {
-                ranks = this.makePageRanks(graph, decay, limit, epsilon);
+            if (stopLoop) {
+                i = limit;
             }
-            return ranks;
         }
         return ranks;
     }
