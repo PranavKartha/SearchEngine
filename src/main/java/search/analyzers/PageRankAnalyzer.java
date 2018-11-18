@@ -4,7 +4,6 @@ import datastructures.concrete.ChainedHashSet;
 import datastructures.concrete.KVPair;
 import datastructures.concrete.dictionaries.ChainedHashDictionary;
 import datastructures.interfaces.IDictionary;
-import datastructures.interfaces.IList;
 import datastructures.interfaces.ISet;
 import search.models.Webpage;
 
