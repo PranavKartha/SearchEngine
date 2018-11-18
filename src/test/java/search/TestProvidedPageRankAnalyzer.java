@@ -100,5 +100,4 @@ public class TestProvidedPageRankAnalyzer extends BaseTest {
         assertEquals(0.31132, analyzer.computePageRank(pageDUri), DELTA);
         assertEquals(0.05244, analyzer.computePageRank(pageEUri), DELTA);
     }
-
 }

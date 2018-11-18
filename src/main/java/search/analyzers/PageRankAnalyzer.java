@@ -66,24 +66,19 @@ public class PageRankAnalyzer {
         // build the set with all legal links
         ISet<URI> allLinks = new ChainedHashSet<>();
         for (Webpage page: webpages) {
-            IList<URI> links = page.getLinks();
             allLinks.add(page.getUri());
-            if (links.size() > 0) {
-                for (URI link: links) {
-                    allLinks.add(link);
-                }
-            }
         }
         
         for (Webpage page: webpages) {
-            if (!graph.containsKey(page.getUri())) {
+            URI zelda = page.getUri();
+            if (!graph.containsKey(zelda)) {
                 ISet<URI> links = new ChainedHashSet<>();
-                for (URI link:page.getLinks()){
+                for (URI link: page.getLinks()){
                     if (!link.equals(page.getUri()) && allLinks.contains(link)) {
                         links.add(link);
                     }
                 }
-                graph.put(page.getUri(), links);
+                graph.put(zelda, links);
             }
         }
         
@@ -133,10 +128,11 @@ public class PageRankAnalyzer {
             }
             // recalculate ranks score
             for (KVPair<URI, ISet<URI>> p: graph) {
-                double numLinks = graph.get(p.getKey()).size() * 1.0;
+                int num = graph.get(p.getKey()).size();
                 double oldRank = oldRanks.get(p.getKey());
                 double value = 0.0;
-                if (numLinks != 0.0) {
+                if (num > 0) {
+                    double numLinks = num * 1.0;
                     double quotient = oldRank / numLinks;
                     value = decay * quotient;
                     ISet<URI> links = graph.get(p.getKey());
