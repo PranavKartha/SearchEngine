@@ -3,7 +3,7 @@ package search;
 public class Main {
     // The dataset to index and search.
     // MUST be the name of one of the folders in the 'data' folder.
-    public static final String DATA_FOLDER_NAME = "wikipedia-with-spam";
+    public static final String DATA_FOLDER_NAME = "wikipedia";
 
     // The name of your search engine (feel free to change this).
     public static final String SITE_TITLE = "Noodle";
@@ -16,7 +16,9 @@ public class Main {
     public static void main(String[] args) {
         System.out.println("Indexing web pages...");
         SearchEngine engine = new SearchEngine(DATA_FOLDER_NAME);
-
+        
+        System.out.println("Fuck all the ducks");
+        
         System.out.println("Setting up web server...");
         Webapp app = new Webapp(engine, SITE_TITLE, PORT);
 
